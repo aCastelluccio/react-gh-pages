@@ -43,8 +43,8 @@ class myTable extends Component {
         this.state.names.forEach(element => {
             rows.push(this.createData(element.name, "No"));
         });
+        // console.log(rows)
         console.log(rows)
-
         let notClicked = (
             <Paper >
                 <Table >

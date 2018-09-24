@@ -12,7 +12,8 @@
     "react-dom": "^16.5.2",
     "react-mdl": "^1.11.0",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5"
+    "react-scripts": "1.1.5",
+    "write-json-file": "^3.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

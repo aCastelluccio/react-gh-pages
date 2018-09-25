@@ -8,7 +8,7 @@ class Student extends Component {
         super(props);
 
         this.state = {
-            AUTHORIZATION_TOKEN: '7~FcVxUwtCf8QiBAd2PQcdfwQslhl1oQy1l8DmMd9oj8q5ion7qjznfeAQSAXs0F4T',
+            AUTHORIZATION_TOKEN: 'process.env.REACT_APP_API_KEY',
             COURSE_ID: '1406719',
             name: props.name.replace(/\W/g, ''),
             ASSIGNMENT_ID: '9556573',
@@ -90,6 +90,8 @@ class Student extends Component {
                 // console.log(element.points + "======" + event.target.value)
                 if (element.points == event.target.value) {
                     this.state.commentObject.categories[event.target.id].ratingDescription = this.state.dat[event.target.id].ratings[count].description;
+                    this.state.commentObject.categories[event.target.id].categoryDescription = this.state.dat[event.target.id].description;
+
                     break;
 
                 }
@@ -163,18 +165,7 @@ class Student extends Component {
 
         
 
-        const axios = require('axios');
-        var config = {
-            headers: {
-
-                'secret-key': `$2a$10$txGHwBPY1Dzq.ItjSm1I0.d2ywCeY5FO3aFp3ovOERHMoXxVcaJOy`
-            }
-
-            //     headers: {
-            //         Authorization: `Bearer ` + this.state.AUTHORIZATION_TOKEN,
-            //         'Access-Control-Allow-Origin': true
-            //     }
-        }
+     
 
         let req = new XMLHttpRequest();
 
@@ -198,7 +189,7 @@ class Student extends Component {
         
                 req2.open("PUT", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe", true);
                 req2.setRequestHeader("Content-type", "application/json");
-                req2.setRequestHeader("secret-key", "$2a$10$txGHwBPY1Dzq.ItjSm1I0.d2ywCeY5FO3aFp3ovOERHMoXxVcaJOy");
+                req2.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
                 req2.send(myJSON);
             }
         };

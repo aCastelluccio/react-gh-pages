@@ -31,7 +31,7 @@ class ResultPage extends Component {
         };
 
         req.open("GET", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe/latest", true);
-        req.setRequestHeader("secret-key", "$2a$10$txGHwBPY1Dzq.ItjSm1I0.d2ywCeY5FO3aFp3ovOERHMoXxVcaJOy");
+        req.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
         req.send();
 
     }

@@ -8,7 +8,7 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            AUTHORIZATION_TOKEN: '7~FcVxUwtCf8QiBAd2PQcdfwQslhl1oQy1l8DmMd9oj8q5ion7qjznfeAQSAXs0F4T',
+            AUTHORIZATION_TOKEN: REACT_APP_API_KEY,
             COURSE_NUMBER: 1406719,
             isLoaded: false,
             names: {},
@@ -119,6 +119,7 @@ class Home extends Component {
         })
     }
     render() {
+        console.log(process.env.REACT_APP_API_KEY)
         if (!this.state.isLoaded)
             this.getNames();
         let isNotLoaded = (

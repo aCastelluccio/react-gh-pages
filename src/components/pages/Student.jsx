@@ -63,7 +63,7 @@ class Student extends Component {
         }
         axios
             .get(
-                `https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_ID}/assignments/${this.state.ASSIGNMENT_ID}/`, config
+                `https://cors-anywhere.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_ID}/assignments/${this.state.ASSIGNMENT_ID}/`, config
             )
             .then(response => {
                 var rubric = this.buildRubricObject(response.data.rubric);

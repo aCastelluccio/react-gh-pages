@@ -32,15 +32,18 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <div className="wrapper">
-          <Switch>
-            <Route path="/home" exact component={() => <Homepage handleRedirect={this.handleRedirect} />} />
-            <Route path="/Student/:name" render={(props) => <Student {...props} />} />
-          </Switch>
-          {this.redirectTo()}
-        </div>
-      </BrowserRouter>
+      // <BrowserRouter>
+      //   <div className="wrapper">
+      //     <Switch>
+      //       <Route path="/home" exact component={() => <Homepage handleRedirect={this.handleRedirect} />} />
+      //       <Route path="/Student/:name" render={(props) => <Student {...props} />} />
+      //     </Switch>
+      //     {this.redirectTo()}
+      //   </div>
+      // </BrowserRouter>
+      <div>
+        <Homepage />
+      </div>
     );
   }
 }

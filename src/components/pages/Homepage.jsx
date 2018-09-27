@@ -16,7 +16,7 @@ class Home extends Component {
             isConfirmed: false,
             PASSWORD: process.env.REACT_APP_PASSWORD,
             enteredPassword: "",
-            assignmentId: '9556573'
+            assignmentId: ''
         };
         this.getNames = this.getNames.bind(this);
         this.createCORSRequest = this.createCORSRequest.bind(this);

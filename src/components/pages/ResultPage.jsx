@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Table from "./ResultTable"
 class ResultPage extends Component {
 
     constructor(props) {
@@ -7,7 +8,7 @@ class ResultPage extends Component {
         this.state = {
             isLoaded: false,
             bigObject: {},
-            SECRET_KEY:'$2a$10$txGHwBPY1Dzq.' + process.env.REACT_APP_SECRET,
+            SECRET_KEY: '$2a$10$txGHwBPY1Dzq.ItjSm1I0.' + process.env.REACT_APP_SECRET,
             names: props.names
 
         };
@@ -41,21 +42,21 @@ class ResultPage extends Component {
     }
 
     mapOrder(array, order, key) {
-  
-        array.sort( function (a, b) {
-          var A = a[key], B = b[key];
-          
-          if (order.indexOf(A) > order.indexOf(B)) {
-            return 1;
-          } else {
-            return -1;
-          }
-          
+
+        array.sort(function (a, b) {
+            var A = a[key], B = b[key];
+
+            if (order.indexOf(A) > order.indexOf(B)) {
+                return 1;
+            } else {
+                return -1;
+            }
+
         });
-        
+
         return array;
-      };
-      
+    };
+
 
 
     output = () => {
@@ -69,22 +70,23 @@ class ResultPage extends Component {
         }
 
         let sortingArr = this.state.names;
-        
+
         let indvNames = [];
         this.state.names.forEach(element => {
-            indvNames.push(element['name'].replace(/\W/g, '').replace(/([A-Z])/g, ' $1').trim().replace(/ /g,"_"))
+            indvNames.push(element['name'].replace(/\W/g, '').replace(/([A-Z])/g, ' $1').trim().replace(/ /g, "_"))
         });
-      
+
         let NewOut = this.mapOrder(out, indvNames, 'name')
+        console.log(NewOut)
         // let result = out.map(function(item) {
         //     var n = sorting.indexOf(item[1]);
         //     sorting[n] = '';
         //     return [n, item]
         // }).sort().map(function(j) { return j[1] })
 
-      
 
-        return out;
+
+        return NewOut;
     }
 
     individualCategories = (obj) => {
@@ -122,16 +124,22 @@ class ResultPage extends Component {
 
                             <h1>Name:  {ele.name}</h1>
                             <h2>TotalPoint: {ele.totalPoints}</h2>
-                            <p>OverallComment:  {ele.bigComment.replace(/undefined/g, "")}</p>
-                            {this.individualCategories(ele.categories)
-                                .map(ele2 => (
-                                    <div>
-                                        <p >Category:  {ele2.categoryDescription}</p>
-                                        <p >     Points:   <b>{ele2.points}</b></p>
-                                        <p >     CategoryComment:   {ele2.comments}</p>
-                                        <hr></hr>
-                                    </div>
-                                ))}
+                            <p>OverallComment: <br></br>  {ele.bigComment.replace(/undefined/g, "").split("\n").map(function (item, idx) {
+                                return (
+                                    <span key={idx}>
+                                        {item}
+                                        <br />
+                                    </span>
+                                )
+                            })}</p>
+
+                            <div>
+
+                                {console.log(ele.categories)}
+                                <Table data={ele.categories}></Table>
+                                <hr></hr>
+                            </div>
+
                         </div>
                     )
                     )

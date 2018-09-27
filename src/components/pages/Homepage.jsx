@@ -8,38 +8,36 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            AUTHORIZATION_TOKEN: REACT_APP_API_KEY,
+            AUTHORIZATION_TOKEN: process.env.REACT_APP_API_KEY,
             COURSE_NUMBER: 1406719,
             isLoaded: false,
             names: {},
-            buttonClicked: false
+            buttonClicked: false,
+            isConfirmed: false,
+            PASSWORD: process.env.REACT_APP_PASSWORD,
+            enteredPassword: "",
+            assignmentId: '9556573'
         };
         this.getNames = this.getNames.bind(this);
         this.createCORSRequest = this.createCORSRequest.bind(this);
-
-
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleRadioChange = this.handleRadioChange.bind(this);
     }
 
     createCORSRequest(method, url) {
         var xhr = new XMLHttpRequest();
-        console.log(xhr)
         if ("withCredentials" in xhr) {
 
-            // Check if the XMLHttpRequest object has a "withCredentials" property.
-            // "withCredentials" only exists on XMLHTTPRequest2 objects.
             xhr.open(method, url, true);
-            console.log("th")
 
         } else if (typeof XDomainRequest != "undefined") {
 
-            // Otherwise, check if XDomainRequest.
-            // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
             xhr = new XDomainRequest();
             xhr.open(method, url);
 
         } else {
 
-            // Otherwise, CORS is not supported by the browser.
             xhr = null;
 
         }
@@ -56,20 +54,17 @@ class Home extends Component {
         axios
             .get(
                 `https://cors-anywhere.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_NUMBER}/users?per_page=50`, config
-
             )
             .then(response => {
 
                 let names = response.data.map(function (element) {
                     return element.name
                 });
-                // console.log(names)
 
                 let data = [];
                 names.forEach(function (element) {
                     data.push({ name: element });
                 });
-                // console.log(data)
                 this.setState({
                     names: data,
                     isLoaded: true
@@ -79,72 +74,78 @@ class Home extends Component {
                 console.log(error);
             });
 
-        //   let url = `https://cors-anywhere.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_NUMBER}/users?per_page=50`;
-        //   var xhr = this.createCORSRequest('GET', url);
-        //   xhr.setRequestHeader('Authorization', `Bearer ` + this.state.AUTHORIZATION_TOKEN);
-        //   xhr.setRequestHeader('Access-Control-Allow-Origin', true);
-        //   xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-
-        //   xhr.send()
-
-        //   xhr.onload = function() {
-        //     var responseText = xhr.responseText;
-        //     let names = responseText.data.map(function (element) {
-        //                     return element.name
-        //                 });
-        //                 // console.log(names)
-
-        //                 let data = [];
-        //                 names.forEach(function (element) {
-        //                     data.push({ name: element });
-        //                 });
-        //                 // console.log(data)
-        //                 this.setState({
-        //                     names: data,
-        //                     isLoaded: true
-        //                 });
-        //    };
-
-        //    xhr.onerror = function() {
-        //      console.log('There was an error!');
-        //    };
-        //   if (!xhr) {
-        //     throw new Error('CORS not supported');
-        //   }
     }
 
     callResult = () => {
         this.setState({
-            buttonClicked:true
+            buttonClicked: true
         })
     }
+
+    handleChange(event) {
+        this.setState({
+            enteredPassword: event.target.value
+        })
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        if (this.state.enteredPassword == this.state.PASSWORD)
+            this.setState({
+                isConfirmed: true
+            })
+    }
+
+    handleRadioChange(event){
+        console.log(event.target.value)
+        if (event.target.value == 2){
+            this.setState({
+                assignmentId:'9556573'
+            })
+        }
+        else if (event.target.value == 1){
+            this.setState({
+                assignmentId:'9495582'
+            })
+        }
+    }
+
     render() {
-        console.log(process.env.REACT_APP_API_KEY)
         if (!this.state.isLoaded)
             this.getNames();
         let isNotLoaded = (
 
             <div className="home-loading">
                 <CircularProgress />
-            </div>
-        )
-        let isLoaded = (
-            <div>
-                <button onClick={(e) => this.callResult(e)}>amazing button</button>
-                <Table names={this.state.names}></Table>
-            </div>
-        );
-        let buttonClicked = (
-            <div>
-                <Results />
-            </div>
-        )
-        return (
-            <main className="home-main" >
-                {this.state.isLoaded ? (this.state.buttonClicked ? buttonClicked : isLoaded) : isNotLoaded}
-            </main>
-        )
 
-    }
-}
-export default Home;
+                <form onSubmit={this.handleSubmit}>
+                    <label>Enter the password:
+                        <input id='pass' type="text" value={this.state.enteredPassword} onChange={this.handleChange} />
+                    </label>
+                    <br></br>
+                    <input type="radio" name="gender" value="2" onChange={this.handleRadioChange} /> Project 2<br></br>
+                    <input type="radio" name="gender" value="1" onChange={this.handleRadioChange} /> Project 1 Resubmission<br></br>
+                    <input type="submit" value="Submit" /><br></br>
+                </form>
+            </div>
+                )
+                let isLoaded = (
+            <div>
+                    <button onClick={(e) => this.callResult(e)}>amazing button</button>
+                    <Table names={this.state.names} assignmentId={this.state.assignmentId}></Table>
+                </div>
+                );
+                let buttonClicked = (
+            <div>
+                    <Results names={this.state.names} />
+                </div>
+                )
+                return (
+            <main className="home-main" >
+                    {(this.state.isLoaded && this.state.isConfirmed) ? (this.state.buttonClicked ? buttonClicked : isLoaded) : isNotLoaded}
+                </main>
+                )
+        
+            }
+        }
+        export default Home;

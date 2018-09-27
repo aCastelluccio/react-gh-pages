@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import CircularProgress from '@material-ui/core/CircularProgress';
 class ResultPage extends Component {
 
@@ -7,11 +6,16 @@ class ResultPage extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            bigObject: {}
+            bigObject: {},
+            SECRET_KEY:'$2a$10$txGHwBPY1Dzq.' + process.env.REACT_APP_SECRET,
+            names: props.names
+
         };
         this.getJson = this.getJson.bind(this);
         this.output = this.output.bind(this);
         this.individualCategories = this.individualCategories.bind(this);
+        this.mapOrder = this.mapOrder.bind(this);
+
     }
 
     getJson = () => {
@@ -31,10 +35,27 @@ class ResultPage extends Component {
         };
 
         req.open("GET", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe/latest", true);
-        req.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
+        req.setRequestHeader("secret-key", this.state.SECRET_KEY);
         req.send();
 
     }
+
+    mapOrder(array, order, key) {
+  
+        array.sort( function (a, b) {
+          var A = a[key], B = b[key];
+          
+          if (order.indexOf(A) > order.indexOf(B)) {
+            return 1;
+          } else {
+            return -1;
+          }
+          
+        });
+        
+        return array;
+      };
+      
 
 
     output = () => {
@@ -46,7 +67,23 @@ class ResultPage extends Component {
             out.push(this.state.bigObject[key]);
 
         }
-        console.log(out)
+
+        let sortingArr = this.state.names;
+        
+        let indvNames = [];
+        this.state.names.forEach(element => {
+            indvNames.push(element['name'].replace(/\W/g, '').replace(/([A-Z])/g, ' $1').trim().replace(/ /g,"_"))
+        });
+      
+        let NewOut = this.mapOrder(out, indvNames, 'name')
+        // let result = out.map(function(item) {
+        //     var n = sorting.indexOf(item[1]);
+        //     sorting[n] = '';
+        //     return [n, item]
+        // }).sort().map(function(j) { return j[1] })
+
+      
+
         return out;
     }
 
@@ -59,7 +96,6 @@ class ResultPage extends Component {
             out.push(obj[key]);
 
         }
-        console.log(out)
         return out;
     }
     render() {

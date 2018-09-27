@@ -8,10 +8,10 @@ class Student extends Component {
         super(props);
 
         this.state = {
-            AUTHORIZATION_TOKEN: 'process.env.REACT_APP_API_KEY',
+            AUTHORIZATION_TOKEN: process.env.REACT_APP_API_KEY,
             COURSE_ID: '1406719',
             name: props.name.replace(/\W/g, ''),
-            ASSIGNMENT_ID: '9556573',
+            ASSIGNMENT_ID: props.assignmentId,
             ready: false,
             ouput: null,
             dat: [],
@@ -140,7 +140,6 @@ class Student extends Component {
 
         //     console.log(objectKey);
         // });
-        console.log(this.state.commentObject)
         for (var key in this.state.commentObject.categories) {
             // skip loop if the property is from prototype
             if (!this.state.commentObject.categories.hasOwnProperty(key)) continue;
@@ -195,7 +194,7 @@ class Student extends Component {
         };
 
         req.open("GET", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe/latest", true);
-        req.setRequestHeader("secret-key", "$2a$10$txGHwBPY1Dzq.ItjSm1I0.d2ywCeY5FO3aFp3ovOERHMoXxVcaJOy");
+        req.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
         req.send();
 
 

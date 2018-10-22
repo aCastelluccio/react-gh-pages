@@ -24,6 +24,8 @@ class Student extends Component {
             //   points : []
             },
             saved: "not saved",
+            json:props.json,
+            JSON_AUTHORIZATION : '$2a$10$txGHwBPY1Dzq.ItjSm1I0.' + process.env.REACT_APP_SECRET
           
         };
 
@@ -63,7 +65,7 @@ class Student extends Component {
         }
         axios
             .get(
-                `https://cors-anywhere.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_ID}/assignments/${this.state.ASSIGNMENT_ID}/`, config
+                `https://stormy-atoll-91880.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_ID}/assignments/${this.state.ASSIGNMENT_ID}/`, config
             )
             .then(response => {
                 var rubric = this.buildRubricObject(response.data.rubric);
@@ -76,9 +78,14 @@ class Student extends Component {
 
 
     handleChange(event) {
+        console.log(this.state.dat)
 
-        if (event.target.id in this.state.commentObject.categories)
-        {
+        if(!(event.target.id in this.state.commentObject.categories)){
+            this.state.commentObject.categories[event.target.id] = {};
+        }
+
+        // if (event.target.id in this.state.commentObject.categories)
+        // {
             // console.log(event.target.id)
             // this.setState({this.state.commentObject.event.target.id.comment:event.target.value
             this.state.commentObject.categories[event.target.id].points = event.target.value;
@@ -101,12 +108,14 @@ class Student extends Component {
                 count += 1;
             };
             // this.state.commentObject.categoryDescription = 
-        }
-        else {
-            this.state.commentObject.categories[event.target.id] = {};
-            this.state.commentObject.categories[event.target.id].points = event.target.value;
+        //}
+        // else {
+        //     this.state.commentObject.categories[event.target.id] = {};
+        //     this.state.commentObject.categories[event.target.id].points = event.target.value;  
+        //     this.state.commentObject.categories[event.target.id].categoryDescription = this.state.dat[event.target.id].description;
 
-        }
+
+        // }
         event.preventDefault();
     }
 
@@ -145,7 +154,8 @@ class Student extends Component {
             if (!this.state.commentObject.categories.hasOwnProperty(key)) continue;
 
             var obj = this.state.commentObject.categories[key];
-            str += "\n" + obj.comments;
+            if(obj.comments != "" && obj.comments != null && obj.comments != undefined )
+                str += "\n" + obj.comments;
             totPoints += parseInt(obj.points);
             // for (var prop in obj) {
             //     console.log("prop:" + prop)
@@ -167,7 +177,7 @@ class Student extends Component {
      
 
         let req = new XMLHttpRequest();
-
+        console.log(this.state.JSON_AUTHORIZATION)
         req.onreadystatechange = () => {
             if (req.readyState == XMLHttpRequest.DONE) {    
                 // console.log(req)
@@ -186,15 +196,15 @@ class Student extends Component {
                     }
                 };
         
-                req2.open("PUT", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe", true);
+                req2.open("PUT", `https://api.jsonbin.io/b/${this.state.json}`, true);
                 req2.setRequestHeader("Content-type", "application/json");
-                req2.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
+                req2.setRequestHeader("secret-key",  this.state.JSON_AUTHORIZATION);
                 req2.send(myJSON);
             }
         };
 
-        req.open("GET", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe/latest", true);
-        req.setRequestHeader("secret-key", process.env.REACT_APP_SECRET);
+        req.open("GET", `https://api.jsonbin.io/b/${this.state.json}/latest`, true);
+        req.setRequestHeader("secret-key", this.state.JSON_AUTHORIZATION);
         req.send();
 
 

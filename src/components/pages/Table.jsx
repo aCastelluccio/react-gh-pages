@@ -16,7 +16,8 @@ class myTable extends Component {
             names: props.names,
             currentName: "",
             isClicked: false,
-            assignmentId: props.assignmentId
+            assignmentId: props.assignmentId,
+            json: props.json
         };
         this.createData = this.createData.bind(this);
         this.callStudent = this.callStudent.bind(this);
@@ -70,7 +71,7 @@ class myTable extends Component {
             </Paper>
         );
         let clicked = (
-            <Student name = {this.state.currentName} assignmentId = {this.state.assignmentId}> </Student>
+            <Student name = {this.state.currentName} assignmentId = {this.state.assignmentId} json = {this.state.json}> </Student>
         )
         return (
             <main className="Table-main" >

@@ -16,7 +16,8 @@ class Home extends Component {
             isConfirmed: false,
             PASSWORD: process.env.REACT_APP_PASSWORD,
             enteredPassword: "",
-            assignmentId: ''
+            assignmentId: '',
+            json:""
         };
         this.getNames = this.getNames.bind(this);
         this.createCORSRequest = this.createCORSRequest.bind(this);
@@ -53,7 +54,7 @@ class Home extends Component {
         }
         axios
             .get(
-                `https://cors-anywhere.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_NUMBER}/users?per_page=50`, config
+                `https://stormy-atoll-91880.herokuapp.com/https://canvas.instructure.com/api/v1/courses/${this.state.COURSE_NUMBER}/users?per_page=50`, config
             )
             .then(response => {
 
@@ -100,12 +101,21 @@ class Home extends Component {
         console.log(event.target.value)
         if (event.target.value == 2){
             this.setState({
-                assignmentId:'9556573'
+                assignmentId:'9556573',
+                json:'5ba7f77d6d95da7b7a6a8cfe'
             })
         }
         else if (event.target.value == 1){
             this.setState({
-                assignmentId:'9495582'
+                assignmentId:'9495582',
+                json:'5bae3cd4a97c597b3c5abca6'
+            })
+        } 
+        else if (event.target.value == 3){
+            this.setState({
+                assignmentId:'9750725',
+                json:'5bcdd623716f9364f8c8f739'
+                
             })
         }
     }
@@ -113,6 +123,9 @@ class Home extends Component {
     render() {
         if (!this.state.isLoaded)
             this.getNames();
+        console.log("test" + this.state.isConfirmed)
+        console.log(this.state.isLoaded)
+
         let isNotLoaded = (
 
             <div className="home-loading">
@@ -123,8 +136,9 @@ class Home extends Component {
                         <input id='pass' type="text" value={this.state.enteredPassword} onChange={this.handleChange} />
                     </label>
                     <br></br>
-                    <input type="radio" name="gender" value="2" onChange={this.handleRadioChange} /> Project 2<br></br>
-                    <input type="radio" name="gender" value="1" onChange={this.handleRadioChange} /> Project 1 Resubmission<br></br>
+                    <input type="radio" value="2" onChange={this.handleRadioChange} /> Project 2<br></br>
+                    <input type="radio" value="1" onChange={this.handleRadioChange} /> Project 1 Resubmission<br></br>
+                    <input type="radio" value="3" onChange={this.handleRadioChange} /> Project 3<br></br>
                     <input type="submit" value="Submit" /><br></br>
                 </form>
             </div>
@@ -132,12 +146,12 @@ class Home extends Component {
                 let isLoaded = (
             <div>
                     <button onClick={(e) => this.callResult(e)}>amazing button</button>
-                    <Table names={this.state.names} assignmentId={this.state.assignmentId}></Table>
+                    <Table names={this.state.names} assignmentId={this.state.assignmentId} json = {this.state.json}></Table>
                 </div>
                 );
                 let buttonClicked = (
             <div>
-                    <Results names={this.state.names} />
+                    <Results names={this.state.names} json={this.state.json} />
                 </div>
                 )
                 return (

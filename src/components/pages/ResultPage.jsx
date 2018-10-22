@@ -9,7 +9,8 @@ class ResultPage extends Component {
             isLoaded: false,
             bigObject: {},
             SECRET_KEY: '$2a$10$txGHwBPY1Dzq.ItjSm1I0.' + process.env.REACT_APP_SECRET,
-            names: props.names
+            names: props.names,
+            json:props.json
 
         };
         this.getJson = this.getJson.bind(this);
@@ -35,7 +36,7 @@ class ResultPage extends Component {
 
         };
 
-        req.open("GET", "https://api.jsonbin.io/b/5ba7f77d6d95da7b7a6a8cfe/latest", true);
+        req.open("GET", `https://api.jsonbin.io/b/${this.state.json}/latest`, true);
         req.setRequestHeader("secret-key", this.state.SECRET_KEY);
         req.send();
 

@@ -98,7 +98,7 @@ class Home extends Component {
     }
 
     handleRadioChange(event){
-        console.log(event.target.value)
+        
         if (event.target.value == 2){
             this.setState({
                 assignmentId:'9556573',
@@ -112,19 +112,19 @@ class Home extends Component {
             })
         } 
         else if (event.target.value == 3){
+            this.state.json= "5bcdd623716f9364f8c8f739";
             this.setState({
                 assignmentId:'9750725',
                 json:'5bcdd623716f9364f8c8f739'
                 
             })
         }
+
     }
 
     render() {
         if (!this.state.isLoaded)
             this.getNames();
-        console.log("test" + this.state.isConfirmed)
-        console.log(this.state.isLoaded)
 
         let isNotLoaded = (
 

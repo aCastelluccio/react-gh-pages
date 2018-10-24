@@ -78,7 +78,6 @@ class Student extends Component {
 
 
     handleChange(event) {
-        console.log(this.state.dat)
 
         if(!(event.target.id in this.state.commentObject.categories)){
             this.state.commentObject.categories[event.target.id] = {};
@@ -177,7 +176,6 @@ class Student extends Component {
      
 
         let req = new XMLHttpRequest();
-        console.log(this.state.JSON_AUTHORIZATION)
         req.onreadystatechange = () => {
             if (req.readyState == XMLHttpRequest.DONE) {    
                 // console.log(req)
@@ -186,8 +184,8 @@ class Student extends Component {
                 // console.log("original ")
                 // console.log(obj)
                 obj[this.state.name] = this.state.commentObject;
+                obj["categories"] = this.state.dat
                 var myJSON = JSON.stringify(obj);
-                console.log(myJSON)
                 let req2 = new XMLHttpRequest();
 
                 req2.onreadystatechange = () => {

@@ -10,7 +10,7 @@ class ResultPage extends Component {
             bigObject: {},
             SECRET_KEY: '$2a$10$txGHwBPY1Dzq.ItjSm1I0.' + process.env.REACT_APP_SECRET,
             names: props.names,
-            json:props.json
+            json: props.json
 
         };
         this.getJson = this.getJson.bind(this);
@@ -36,7 +36,7 @@ class ResultPage extends Component {
 
         };
 
-        req.open("GET", `https://api.jsonbin.io/b/${this.state.json}/latest`, true);
+        req.open("GET",`https://api.jsonbin.io/b/` + this.state.json + `/latest`, true);
         req.setRequestHeader("secret-key", this.state.SECRET_KEY);
         req.send();
 
@@ -62,14 +62,13 @@ class ResultPage extends Component {
 
     output = () => {
         let out = [];
-
+        let namesAndScores =[]
         for (var key in this.state.bigObject) {
             // skip loop if the property is from prototype
             if (!this.state.bigObject.hasOwnProperty(key)) continue;
             out.push(this.state.bigObject[key]);
-
+            namesAndScores += this.state.bigObject[key].name + "," +  this.state.bigObject[key].totalPoints
         }
-
         let sortingArr = this.state.names;
 
         let indvNames = [];
@@ -78,7 +77,7 @@ class ResultPage extends Component {
         });
 
         let NewOut = this.mapOrder(out, indvNames, 'name')
-        console.log(NewOut)
+        // console.log(NewOut)
         // let result = out.map(function(item) {
         //     var n = sorting.indexOf(item[1]);
         //     sorting[n] = '';
@@ -88,6 +87,20 @@ class ResultPage extends Component {
 
 
         return NewOut;
+    }
+
+
+    checkForUndefined = (ele) => {
+        if (ele.bigComment!= undefined){
+        return ele.bigComment.replace(/undefined/g, "").split("\n").map(function (item, idx) {
+            return (
+                <span key={idx}>
+                    {item}
+                    <br />
+                </span>
+            )
+        })
+    }
     }
 
     individualCategories = (obj) => {
@@ -125,19 +138,12 @@ class ResultPage extends Component {
 
                             <h1>Name:  {ele.name}</h1>
                             <h2>TotalPoint: {ele.totalPoints}</h2>
-                            <p>OverallComment: <br></br>  {ele.bigComment.replace(/undefined/g, "").split("\n").map(function (item, idx) {
-                                return (
-                                    <span key={idx}>
-                                        {item}
-                                        <br />
-                                    </span>
-                                )
-                            })}</p>
+                            <p>OverallComment: <br></br> {this.checkForUndefined(ele)}</p>
 
                             <div>
-
-                                {console.log(ele.categories)}
-                                <Table data={ele.categories}></Table>
+                                {/* {console.log(this.state.bigObject)}
+                                {console.log("above")} */}
+                                <Table jsonData ={this.state.bigObject} data={ele.categories}></Table>
                                 <hr></hr>
                             </div>
 

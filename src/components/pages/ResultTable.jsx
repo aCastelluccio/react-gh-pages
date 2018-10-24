@@ -19,7 +19,8 @@ class myTable extends Component {
             // currentName: "",
             // isClicked: false
             data: props.data,
-            checkboxes: {}
+            checkboxes: {},
+            jsonData: props.jsonData
 
         };
         this.createData = this.createData.bind(this);
@@ -30,12 +31,59 @@ class myTable extends Component {
 
 
     createData(dat) {
-        console.log("Dat")
-        console.log(dat[1])
         let categoryName = dat[1].categoryDescription;
         let pointsEarned = dat[1].points;
         let comment = dat[1].comments;
-        return {categoryName, pointsEarned, comment };
+        return { categoryName, pointsEarned, comment };
+    }
+
+
+    categoryDisplay = (name, points) => {
+                
+        let result = this.state.jsonData.categories.map((key, ind) => {
+           if (this.state.jsonData.categories[ind] != undefined && this.state.jsonData.categories[ind].description == name){
+               return this.state.jsonData.categories[ind].ratings
+           }
+        
+        }
+    )
+    let result1 = {}
+    for (var propName in result) { 
+        if (result[propName] !== null && result[propName] !== undefined) {
+          result1 = result[propName]
+        }
+      }
+    // console.log("result")
+    // console.log(result1)
+
+    let arr = []
+    result1.map((key, ind) => {
+        arr.push(result1[ind].points) 
+     })
+    
+    let highlight;
+    let str = ""
+    for (let i = 0; i < arr.length; i++){
+        if (arr[i] == points){
+            highlight = points.toString();;
+        }
+        str += arr[i] + "|" 
+    }
+    str = str.substr(0,str.length-1)
+
+    return this.getHighlightedText(str,highlight);
+
+
+    }
+
+    getHighlightedText =(text, higlight) => {
+        // Split on higlight term and include term into parts, ignore case
+        let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+        return <span> { parts.map((part, i) => 
+            <span key={i} style={part.toLowerCase() === higlight.toLowerCase() ? { backgroundColor:"yellow"} : {} }>
+                { part }
+            </span>)
+        } </span>;
     }
 
     // handleClick(event,idx){
@@ -53,8 +101,6 @@ class myTable extends Component {
     // }
     render() {
         const rows = [];
-        console.log("data")
-        console.log(this.state.data)
         let result = [];
         if (this.state.data != undefined) {
             result = Object.keys(this.state.data).map((key) => {
@@ -86,16 +132,20 @@ class myTable extends Component {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {console.log("rows")}
-                            {console.log(rows)}
+                            {/* {console.log("rows")}
+                            {console.log(rows)} */}
                             {rows.map((row, idx) => {
+                              
                                 return (
                                     <TableRow key={row.id}  >
-                                       
+
                                         <TableCell component="th" scope="row">
                                             {row.categoryName}
                                         </TableCell>
-                                        <TableCell numeric>{row.pointsEarned}</TableCell>
+                                        <TableCell numeric>
+                                            {/* {row.pointsEarned} */}
+                                            {this.categoryDisplay(row.categoryName, row.pointsEarned)}
+                                        </TableCell>
                                         <TableCell component="th" scope="row">
                                             {row.comment}
                                         </TableCell>
@@ -127,7 +177,7 @@ class myTable extends Component {
                             {rows.map((row, idx) => {
                                 return (
                                     <TableRow key={idx}  >
-                                    
+
                                         <TableCell component="th" scope="row">
                                             {row.categoryName}
                                         </TableCell>

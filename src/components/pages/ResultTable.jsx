@@ -83,7 +83,7 @@ class myTable extends Component {
             str += arrIAsString + "   |   "
         }
 
-        str = str.substr(0, str.length - 2)
+        str = str.substr(0, str.length - 4)
 
         return this.getHighlightedText(str, highlight);
 

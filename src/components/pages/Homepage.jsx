@@ -119,6 +119,15 @@ class Home extends Component {
                 
             })
         }
+        else if (event.target.value == 4){
+
+            this.state.json= "5be9a2d90692212d42fa9830";
+            this.setState({
+                assignmentId:'9942535',
+                json:'5be9a2d90692212d42fa9830'
+                
+            })
+        }
 
     }
 
@@ -139,6 +148,7 @@ class Home extends Component {
                     <input type="radio" value="2" onChange={this.handleRadioChange} /> Project 2<br></br>
                     <input type="radio" value="1" onChange={this.handleRadioChange} /> Project 1 Resubmission<br></br>
                     <input type="radio" value="3" onChange={this.handleRadioChange} /> Project 3<br></br>
+                    <input type="radio" value="4" onChange={this.handleRadioChange} /> Project 4<br></br>
                     <input type="submit" value="Submit" /><br></br>
                 </form>
             </div>

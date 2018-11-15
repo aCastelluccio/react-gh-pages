@@ -1,6 +1,6 @@
 /*
-Homepage for CanvasGradingHelper. All other page calls are handled from here. 
-
+Homepage for CanvasGradingHelper 
+All other page calls are handled from here. 
 Updated by Andrew Castelluccio 11/14
 */
 import React, { Component } from "react";

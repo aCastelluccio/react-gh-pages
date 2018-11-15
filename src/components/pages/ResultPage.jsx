@@ -1,3 +1,9 @@
+/*
+ResultPage for CanvasGradingHelper
+This is the page that is used to show the results of the grading. It utilizes the ResultTable class 
+for output as well.
+Updated by Andrew Castelluccio 11/14
+*/
 import React, { Component } from "react";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from "./ResultTable"
@@ -11,7 +17,6 @@ class ResultPage extends Component {
             SECRET_KEY: '$2a$10$txGHwBPY1Dzq.ItjSm1I0.' + process.env.REACT_APP_SECRET,
             names: props.names,
             json: props.json
-
         };
         this.getJson = this.getJson.bind(this);
         this.output = this.output.bind(this);

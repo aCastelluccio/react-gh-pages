@@ -15,13 +15,13 @@ class ResultPage extends Component {
         };
         this.getJson = this.getJson.bind(this);
         this.output = this.output.bind(this);
-        this.individualCategories = this.individualCategories.bind(this);
+        this.checkForUndefined = this.checkForUndefined.bind(this);
         this.mapOrder = this.mapOrder.bind(this);
-
     }
 
+    // API request to populate bigObject with all of the information from the JSON
+    // TODO: switch from JSON to database, redo function
     getJson = () => {
-
         let req = new XMLHttpRequest();
 
         req.onreadystatechange = () => {
@@ -32,132 +32,97 @@ class ResultPage extends Component {
                     bigObject: object
                 })
             }
-
-
         };
-
         req.open("GET",`https://api.jsonbin.io/b/` + this.state.json + `/latest`, true);
         req.setRequestHeader("secret-key", this.state.SECRET_KEY);
         req.send();
-
     }
 
+    // used to ensure ouput of information is in order of the class names
     mapOrder(array, order, key) {
-
         array.sort(function (a, b) {
             var A = a[key], B = b[key];
-
             if (order.indexOf(A) > order.indexOf(B)) {
                 return 1;
             } else {
                 return -1;
             }
-
         });
-
         return array;
     };
 
-
-
+    // function that creates big object of output in proper order to be used by the table
     output = () => {
+        
         let out = [];
-        let namesAndScores =[]
+
+        // creates list of each student with poorly formatted names
         for (var key in this.state.bigObject) {
             // skip loop if the property is from prototype
             if (!this.state.bigObject.hasOwnProperty(key)) continue;
             out.push(this.state.bigObject[key]);
-            namesAndScores += this.state.bigObject[key].name + "," +  this.state.bigObject[key].totalPoints
         }
-        let sortingArr = this.state.names;
-
+       
+        // creates list of each students name in correct order with proper format
         let indvNames = [];
         this.state.names.forEach(element => {
             indvNames.push(element['name'].replace(/\W/g, '').replace(/([A-Z])/g, ' $1').trim().replace(/ /g, "_"))
         });
 
+        // uses helper function to sort the out object by the order of the individual names
         let NewOut = this.mapOrder(out, indvNames, 'name')
-        // console.log(NewOut)
-        // let result = out.map(function(item) {
-        //     var n = sorting.indexOf(item[1]);
-        //     sorting[n] = '';
-        //     return [n, item]
-        // }).sort().map(function(j) { return j[1] })
-
-
-
         return NewOut;
     }
 
-
+    // function to remove word undefined that appears on missing informatin and split text on new lines
     checkForUndefined = (ele) => {
-        if (ele.bigComment!= undefined){
-        return ele.bigComment.replace(/undefined/g, "").split("\n").map(function (item, idx) {
-            return (
-                <span key={idx}>
-                    {item}
-                    <br />
-                </span>
-            )
-        })
-    }
-    }
-
-    individualCategories = (obj) => {
-        let out = [];
-
-        for (var key in obj) {
-            // skip loop if the property is from prototype
-            if (!obj.hasOwnProperty(key)) continue;
-            out.push(obj[key]);
-
+        if (ele.bigComment != undefined) {
+            return ele.bigComment.replace(/undefined/g, "").split("\n").map(function (item, idx) {
+                return (
+                    <span key={idx}>
+                        {item}
+                        <br />
+                    </span>
+                )
+            })
         }
-        return out;
     }
+    
+    // two render cases, isNotLoaded for preload and isLoaded for post
     render() {
         if (!this.state.isLoaded) {
             this.getJson();
         }
 
+        // temporary loading while json API is called
         let isNotLoaded = (
-
             <div className="home-loading">
                 <CircularProgress />
                 <div>
                     RESULTS
-            </div>
+                </div>
             </div>
         )
 
+        // outputs table from table class with name, totalpoints, and overall comment up top
         let isLoaded = (
             <div>
                 <hr></hr>
-                {this.output()
-                    .map(ele => (
+                {/* loops through each student in json and calls table to display indvidual category */}
+                {this.output().map(ele => (
+                    <div>
+                        <h1>Name:  {ele.name}</h1>
+                        <h2>TotalPoint: {ele.totalPoints}</h2>
+                        <p>OverallComment: <br></br> {this.checkForUndefined(ele)}</p>
                         <div>
-
-                            <h1>Name:  {ele.name}</h1>
-                            <h2>TotalPoint: {ele.totalPoints}</h2>
-                            <p>OverallComment: <br></br> {this.checkForUndefined(ele)}</p>
-
-                            <div>
-                                {/* {console.log(this.state.bigObject)}
-                                {console.log("above")} */}
-                                <Table jsonData ={this.state.bigObject} data={ele.categories}></Table>
-                                <hr></hr>
-                            </div>
-
+                            <Table jsonData={this.state.bigObject} data={ele.categories}></Table>
+                            <hr></hr>
                         </div>
-                    )
-                    )
-                }
 
-
-
-
+                    </div>
+                ))}
             </div>
         )
-
         return (
             <main className="home-main" >
                 {this.state.isLoaded ? isLoaded : isNotLoaded}
@@ -166,5 +131,4 @@ class ResultPage extends Component {
 
     }
 }
-
 export default ResultPage;

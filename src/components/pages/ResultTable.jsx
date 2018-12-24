@@ -82,12 +82,16 @@ class myTable extends Component {
         // Split on higlight term and include term into parts, ignore case
         // let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
         let i = text.lastIndexOf(highlightNum);
-        console.log(text + "       " + highlightNum)
-        console.log(i)
+        if(highlightNum != undefined){
         return (
             <div style={monoFont}><pre>{text.substring(0,i)}<span style={highlight}>{highlightNum}</span>{text.substring(i+highlightNum.length)}</pre></div>
         )
-
+        }
+        else{
+            return(
+                <div style={monoFont}><pre>{text}</pre></div>
+            )
+        }
     }
     // one render cases, buildTable 
     render() {

@@ -63,7 +63,7 @@ class myTable extends Component {
     }
 
     // highlights the specific number of points the student recieved for a category and returns div of numbers
-    getHighlightedText = (text, higlight) => {
+    getHighlightedText = (text, highlightNum) => {
         let monoFont = {
             fontSize: '20px',
             fontFamily: 'Courier-Bold',
@@ -72,10 +72,20 @@ class myTable extends Component {
         let highlight = {
             backgroundColor: "yellow"
         }
+
+
+        // var splitString = text.split("");
+        // var reverseArray = splitString.reverse();
+        // text = reverseArray.join("");
+        
+
         // Split on higlight term and include term into parts, ignore case
-        let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+        // let parts = text.split(new RegExp(`(${higlight})`, 'gi'));
+        let i = text.lastIndexOf(highlightNum);
+        console.log(text + "       " + highlightNum)
+        console.log(i)
         return (
-            <div style={monoFont}><pre>{parts[0]}<span style={highlight}>{parts[1]}</span>{parts[2]}</pre></div>
+            <div style={monoFont}><pre>{text.substring(0,i)}<span style={highlight}>{highlightNum}</span>{text.substring(i+highlightNum.length)}</pre></div>
         )
 
     }

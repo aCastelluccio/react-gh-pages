@@ -13,7 +13,7 @@ class Student extends Component {
         super(props);
         this.state = {
             AUTHORIZATION_TOKEN: process.env.REACT_APP_API_KEY,
-            COURSE_ID: '1406719',
+            COURSE_ID: '1509682',
             name: props.name.replace(/\W/g, ''),
             ASSIGNMENT_ID: props.assignmentId,
             ready: false,

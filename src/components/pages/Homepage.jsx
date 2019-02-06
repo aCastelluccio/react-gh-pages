@@ -14,7 +14,7 @@ class Home extends Component {
         super(props);
         this.state = {
             AUTHORIZATION_TOKEN: process.env.REACT_APP_API_KEY,
-            COURSE_NUMBER: 1406719,
+            COURSE_NUMBER: 1509682,
             isLoaded: false,
             names: {},
             buttonClicked: false,
@@ -140,6 +140,16 @@ class Home extends Component {
 
             })
         }
+        else if (event.target.value == 7) {
+
+            this.state.json = "5c5af89415735a2542441358";
+            this.setState({
+                assignmentId: '10549940',
+                json: '5c5af89415735a2542441358'
+
+            })
+        }
+        
 
         
 
@@ -169,6 +179,7 @@ class Home extends Component {
                     <input type="radio" value="4" onChange={this.handleRadioChange} /> Project 4<br></br>
                     <input type="radio" value="5" onChange={this.handleRadioChange} /> Project 6<br></br>
                     <input type="radio" value="6" onChange={this.handleRadioChange} /> Project 5<br></br>
+                    <input type="radio" value="7" onChange={this.handleRadioChange} /> Project 1<br></br>
 
                     <input type="submit" value="Submit" /><br></br>
                 </form>

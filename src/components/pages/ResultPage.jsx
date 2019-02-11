@@ -73,7 +73,7 @@ class ResultPage extends Component {
         this.state.names.forEach(element => {
             indvNames.push(element['name'].replace(/\W/g, '').replace(/([A-Z])/g, ' $1').trim().replace(/ /g, "_"))
         });
-
+        console.log(indvNames);
         // uses helper function to sort the out object by the order of the individual names
         let NewOut = this.mapOrder(out, indvNames, 'name')
         return NewOut;

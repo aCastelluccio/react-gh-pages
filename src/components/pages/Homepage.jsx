@@ -189,7 +189,11 @@ class Home extends Component {
                     <input type="radio" value="4" onChange={this.handleRadioChange} /> Project 4<br></br>
                     <input type="radio" value="5" onChange={this.handleRadioChange} /> Project 6<br></br>
                     <input type="radio" value="6" onChange={this.handleRadioChange} /> Project 5<br></br>
+                    <hr></hr>
+                    <h3>Spring semster starts here</h3>
                     <input type="radio" value="7" onChange={this.handleRadioChange} /> Project 1<br></br>
+                    <hr></hr>
+                    <h3>Test Assignments below (no password needed)</h3>
                     <input type="radio" value="8" onChange={this.handleRadioChange} /> Test Page<br></br>
 
                     <input type="submit" value="Submit" /><br></br>

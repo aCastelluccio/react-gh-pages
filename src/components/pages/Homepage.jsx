@@ -82,7 +82,7 @@ class Home extends Component {
     // Checks password
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.enteredPassword == this.state.PASSWORD)
+        if (this.state.enteredPassword == this.state.PASSWORD || this.state.COURSE_NUMBER == 1525770)
             this.setState({
                 isConfirmed: true
             })
@@ -149,7 +149,17 @@ class Home extends Component {
 
             })
         }
-        
+        else if (event.target.value == 8){
+
+            this.state.json = "5c58b9e6e9e7c118390a8117";
+            this.state.COURSE_NUMBER = 1525770
+            this.setState({
+                assignmentId: '10626022',
+                json: '5c58b9e6e9e7c118390a8117',
+                COURSE_NUMBER: 1525770,
+                isLoaded: false
+            })
+        }
 
         
 
@@ -180,6 +190,7 @@ class Home extends Component {
                     <input type="radio" value="5" onChange={this.handleRadioChange} /> Project 6<br></br>
                     <input type="radio" value="6" onChange={this.handleRadioChange} /> Project 5<br></br>
                     <input type="radio" value="7" onChange={this.handleRadioChange} /> Project 1<br></br>
+                    <input type="radio" value="8" onChange={this.handleRadioChange} /> Test Page<br></br>
 
                     <input type="submit" value="Submit" /><br></br>
                 </form>
@@ -190,14 +201,14 @@ class Home extends Component {
         let isLoaded = (
             <div>
                 <button onClick={(e) => this.callResult(e)}>amazing button</button>
-                <Table names={this.state.names} assignmentId={this.state.assignmentId} json={this.state.json}></Table>
+                <Table names={this.state.names} assignmentId={this.state.assignmentId} classId={this.state.COURSE_NUMBER} json={this.state.json}></Table>
             </div>
         );
 
         // gets called when amazing button is pressed, switches to grades view
         let resultButtonClicked = (
             <div>
-                <Results names={this.state.names} json={this.state.json} />
+                <Results names={this.state.names} json={this.state.json}/>
             </div>
         )
 

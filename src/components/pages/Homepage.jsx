@@ -160,10 +160,24 @@ class Home extends Component {
                 isLoaded: false
             })
         }
+        else if (event.target.value == 9){
 
-        
+            this.state.json = "5c65b19cad5128320afbed4f";
+            this.setState({
+                assignmentId: '10735698',
+                json: '5c65b19cad5128320afbed4f',
+                isLoaded: false
+            })
+        }
+        else if (event.target.value == 10){
 
-
+            this.state.json = "5c65b19cad5128320afbed4f";
+            this.setState({
+                assignmentId: '10737771',
+                json: '5c65b19cad5128320afbed4f',
+                isLoaded: false
+            })
+        }
     }
     
     // three render cases, isNotLoaded for setup info, isLoaded for post setup, and resultButtonClicked for result view
@@ -192,6 +206,8 @@ class Home extends Component {
                     <hr></hr>
                     <h3>Spring semster starts here</h3>
                     <input type="radio" value="7" onChange={this.handleRadioChange} /> Project 1<br></br>
+                    <input type="radio" value="9" onChange={this.handleRadioChange} /> Labtop Quiz 1 B<br></br>
+                    <input type="radio" value="10" onChange={this.handleRadioChange} /> Labtop Quiz 1 A<br></br>
                     <hr></hr>
                     <h3>Test Assignments below (no password needed)</h3>
                     <input type="radio" value="8" onChange={this.handleRadioChange} /> Test Page<br></br>

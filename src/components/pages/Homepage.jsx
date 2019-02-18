@@ -171,10 +171,10 @@ class Home extends Component {
         }
         else if (event.target.value == 10){
 
-            this.state.json = "5c65b19cad5128320afbed4f";
+            this.state.json = "5c69e2506874aa33ba1461d3";
             this.setState({
                 assignmentId: '10737771',
-                json: '5c65b19cad5128320afbed4f',
+                json: '5c69e2506874aa33ba1461d3',
                 isLoaded: false
             })
         }
@@ -194,7 +194,7 @@ class Home extends Component {
                 <CircularProgress />
                 <form onSubmit={this.handleSubmit}>
                     <label>Enter the password:
-                        <input id='pass' type="text" value={this.state.enteredPassword} onChange={this.handleChange} />
+                        <input id='pass' type="password" value={this.state.enteredPassword} onChange={this.handleChange} />
                     </label>
                     <br></br>
                     <input type="radio" value="2" onChange={this.handleRadioChange} /> Project 2<br></br>

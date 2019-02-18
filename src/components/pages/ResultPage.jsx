@@ -113,6 +113,15 @@ class ResultPage extends Component {
         let isLoaded = (
             <div>
                 <hr></hr>
+
+                {/*make dropdown here*/}
+                <select>
+                    <option value="not_graded">Not Graded</option>
+                    <option value="graded_needs_attention">Graded Needs Attention</option>
+                    <option value="awaiting_submittal">Awaiting Submittal</option>
+                    <option value="grading_submitted">Grading Submitted</option>
+                </select>
+
                 {/* loops through each student in json and calls table to display indvidual category */}
                 {this.output().map(ele => (
                     <div>

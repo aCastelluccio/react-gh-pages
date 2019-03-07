@@ -61,7 +61,7 @@ class myTable extends Component {
                             return (
                                 <TableRow key={row.id}>
                                     <TableCell component="th" scope="row">
-                                        <button id="name" onClick={(e) => this.callStudent(row.name, e)}>{row.name}</button>
+                                        <button class = "amazing-button" id="name" onClick={(e) => this.callStudent(row.name, e)}>{row.name}</button>
                                     </TableCell>
                                     <TableCell numeric>{row.isGraded}</TableCell>
                                 </TableRow>

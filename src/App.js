@@ -1,24 +1,32 @@
 import React, { Component } from 'react';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
-import Homepage from "./components/pages/Homepage";
-
+import Loginscreen from './loginScreen'
 class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      redirect: false
+      loginPage: [],
+      uploadScreen: []
     }
   }
-
+  componentWillMount() {
+    var loginPage = [];
+    loginPage.push(<Loginscreen parentContext={this} />);
+    this.setState({
+      loginPage: loginPage
+    })
+  }
   render() {
     return (
-
-      <div>
-        <Homepage />
+      <div className="App">
+        {this.state.loginPage}
+        {this.state.uploadScreen}
       </div>
-
     );
   }
 }
-
+const style = {
+  margin: 15,
+};
 export default App;

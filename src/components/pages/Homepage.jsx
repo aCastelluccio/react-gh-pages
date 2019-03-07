@@ -8,6 +8,8 @@ import axios from "axios";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Table from './Table.jsx'
 import Results from './ResultPage.jsx'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 class Home extends Component {
 
     constructor(props) {
@@ -82,7 +84,7 @@ class Home extends Component {
     // Checks password
     handleSubmit(event) {
         event.preventDefault();
-        if (this.state.enteredPassword == this.state.PASSWORD || this.state.COURSE_NUMBER == 1525770)
+        // if (this.state.enteredPassword == this.state.PASSWORD || this.state.COURSE_NUMBER == 1525770)
             this.setState({
                 isConfirmed: true
             })
@@ -220,7 +222,7 @@ class Home extends Component {
         // gets called when correct password is submitted, switches to grading view
         let isLoaded = (
             <div>
-                <button onClick={(e) => this.callResult(e)}>amazing button</button>
+                <button class="amazing-button" onClick={(e) => this.callResult(e)}>amazing button</button>
                 <Table names={this.state.names} assignmentId={this.state.assignmentId} classId={this.state.COURSE_NUMBER} json={this.state.json}></Table>
             </div>
         );
@@ -234,11 +236,16 @@ class Home extends Component {
 
         // selects correct view for display bases on state conditions
         return (
+            <MuiThemeProvider>
+
             <main className="home-main" >
                 {(this.state.isLoaded && this.state.isConfirmed) ? (this.state.buttonClicked ? resultButtonClicked : isLoaded) : isNotLoaded}
             </main>
+            </MuiThemeProvider>
+
         )
 
     }
 }
+
 export default Home;

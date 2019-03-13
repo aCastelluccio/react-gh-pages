@@ -16,7 +16,7 @@ class Register extends Component {
     }
 
     handleClick(event) {
-        var apiBaseUrl = "https://grading-api.herokuapp.com/api/";
+        var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
         console.log("values", this.state.api_key, this.state.email, this.state.password);
         //To be done:check for empty values before hitting submit
         var self = this;

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import axios from "axios";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 import GradingView from './GradingView'
 
 class classSelect extends Component {
@@ -22,34 +21,32 @@ class classSelect extends Component {
     }
 
     handleAssignmentSubmit = (id, name, event) => {
-        console.log(id)
-        console.log(name)
 
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
         var payload = {
-            "api": this.state.api_key,
+            "apiKey": this.state.api_key,
             "classId": this.state.classId,
-            "assignmentId":id
+            "assignmentId": id
         }
-        
+        var self = this;
+
         axios.post(apiBaseUrl + 'addAssignment', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    
+                    self.setState({
+                        out:
+                            (
+                                <div>
+                                    <GradingView assignment_id={id} name={name} apiKey={self.state.api_key} classId={self.state.classId} />
+                                </div>
+                            )
+                    })
                 }
                 else {
                     console.log("error")
                 }
             })
 
-        self.setState({
-            out:
-                (
-                <div>
-                    <GradingView assignment_id={id} name={name} apiKey={self.state.api_key} classId = {self.state.classId}/>
-                </div>
-                )
-        })
     }
 
     getListOfAssignments = (id) => {

@@ -59,37 +59,67 @@ class GradingView extends Component {
         return output;
     }
 
-    makeRubric = (studentGrades) => {
-        console.log(this.state.data.categories)
+    newLoop2 = (studentInfo, category) => {
         let output = []
-        let categories = this.state.data.categories;
-        for (let i = 0; i < categories.length; i++) {
-            output.push(
-                <span>
-                    <div>{categories[i].description}</div>
-                    <div>{this.makeRatings(studentGrades, categories[i])}</div>
-                </span>
-            )
-        }
+
+        output.push(
+            <div class="item2">
+                <div className="grid-container_2 cont">Criteria</div>
+                {category.description}
+            </div>
+        )
+        output.push(
+            <div class="item3">
+                <div className="grid-container_2 cont">Ratings</div>
+                {this.makeRatings(studentInfo, category)}
+                </div>
+        )
+        output.push(
+            <div class="item4">
+                <div className="grid-container_2 cont">Pts</div>
+                {studentInfo[category.id + "_grade"]}/{category.points}
+                </div>
+        )
+        output.push(
+            <div class="item5">
+                <div className="grid-container_2 cont">Comments</div>
+                
+            <input type="text" placeholder={studentInfo[category.id + "_comment"]}></input>
+            </div>
+        )
         return output
     }
-    studentLoop = () => {
 
-        let output = [];
-        let studentInfo = this.state.data.student_grades
-        for (let i = 0; i < studentInfo.length; i++) {
-            if (studentInfo[i].grouping == this.state.groupingDispalyed || this.state.groupingDispalyed == 'all') {
-                output.push(
-                    <span>
-                        <div>{studentInfo[i].studentName}</div>
-                        <div>{this.makeRubric(this.state.data.student_grades[i])}</div>
-                    </span>
-                )
-            }
+    newLoop1 = (studentInfo) => {
+        let output = []
+        output.push( <div class="item1">{studentInfo.studentName}</div>)
+        let categories = this.state.data.categories;
+        for (let i = 0; i < categories.length; i++){
+
+
+            output.push(
+                
+                  <div class="grid-container">
+                
+                    {this.newLoop2(studentInfo,categories[i])}
+                </div>
+               
+            )
+
         }
 
-        return output;
+        
 
+        return output
+    }
+    newLoop = () => {
+        let output = []
+        let studentInfo = this.state.data.student_grades
+        for (let i = 0; i < studentInfo.length; i++) {
+            output.push(this.newLoop1(studentInfo[i]))
+              
+        }
+        return output
     }
     render() {
         // console.log(this.state)
@@ -98,12 +128,16 @@ class GradingView extends Component {
         return (
             <div>
                 <h1>{this.state.assignment_name}</h1>
-                
+
                 {/* <button className="rubric-button-not-selected" onClick={(e) => this.handleSubmit(e)}>cat1</button> */}
-                {this.state.completedAPI ? this.studentLoop() : (<div>loading</div>)}
-              
+                {this.state.completedAPI ? this.newLoop() : (<div>loading</div>)}
+            
 
             </div>
+
+        
+
+
         );
     }
 }

@@ -128,6 +128,14 @@ class GradingView extends Component {
         return (
             <div>
                 <h1>{this.state.assignment_name}</h1>
+                
+                <select>
+                    <option value="needs_attention">Needs Attention</option>
+                    <option value="not_graded">Not Graded</option>
+                    <option value="graded">Graded</option>
+                </select>
+
+
 
                 {/* <button className="rubric-button-not-selected" onClick={(e) => this.handleSubmit(e)}>cat1</button> */}
                 {this.state.completedAPI ? this.newLoop() : (<div>loading</div>)}

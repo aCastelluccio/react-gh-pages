@@ -24,22 +24,23 @@ class classSelect extends Component {
     handleAssignmentSubmit = (id, name, event) => {
         console.log(id)
         console.log(name)
-        var self = this;
 
-        // var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
-        // var payload = {
-        //     "api": this.state.api_key,
-        //     "classId": id
-        // }
-        // axios.post(apiBaseUrl + 'addAssignment', payload)
-        //     .then(function (response) {
-        //         if (response.data.code == 200) {
+        var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
+        var payload = {
+            "api": this.state.api_key,
+            "classId": this.state.classId,
+            "assignmentId":id
+        }
+        
+        axios.post(apiBaseUrl + 'addAssignment', payload)
+            .then(function (response) {
+                if (response.data.code == 200) {
                     
-        //         }
-        //         else {
-        //             console.log("error")
-        //         }
-        //     })
+                }
+                else {
+                    console.log("error")
+                }
+            })
 
         self.setState({
             out:

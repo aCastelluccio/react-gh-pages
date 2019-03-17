@@ -1,8 +1,106 @@
 .rubric-button-not-selected{
-  background-color: white
+  background-color: gray
 }
 
 
 .rubric-button-yes-selected{
-  background-color: greenyellow
+  background-color: purple
+}
+
+
+
+.button {
+  
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+  margin: 10px;
+}
+
+
+.item1{ 
+  grid-area: header; 
+}
+.item2{
+  grid-area: menu;
+  
+}
+.item3{ 
+  grid-area: main; 
+}
+.item4{ 
+  grid-area: right; 
+}
+.item5{ 
+  grid-area: footer; 
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  grid-gap: 10px;
+  background-color: gray;
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+
+
+.grid-container_2 {
+  display: grid;
+  grid-template-areas:
+    'header header header header header header'
+    'menu main main main right right'
+    'menu footer footer footer footer footer';
+  grid-gap: 10px;
+  background-color: darkgray;
+  padding: 10px;
+}
+
+.grid-container_2 > div {
+  background-color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  padding: 20px 0;
+  font-size: 30px;
+}
+
+input[type=text]{
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+
+
+
+.cont{
+  height: 20px;
+
+}
+
+.des{
+
+  
 }

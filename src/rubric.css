@@ -27,6 +27,8 @@
 
 .item1{ 
   grid-area: header; 
+  height: 100px;
+  
 }
 .item2{
   grid-area: menu;
@@ -34,12 +36,14 @@
 }
 .item3{ 
   grid-area: main; 
+  
 }
 .item4{ 
   grid-area: right; 
 }
 .item5{ 
-  grid-area: footer; 
+  grid-area: footer;
+  
 }
 
 
@@ -50,8 +54,18 @@
     'menu main main main right right'
     'menu footer footer footer footer footer';
   grid-gap: 10px;
-  background-color: gray;
+  background-color: gray;  
   padding: 10px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  /*height: 300px;*/
+  justify-content: end;
+  /*grid-template-columns: 50px 50px 50px, 50px;*/
+  grid-column-gap: 10px;
+  grid-row-gap: 10px;
+  align-content: center;
+  /*margin-bottom: 100px;*/
+  
+  
 }
 
 .grid-container > div {
@@ -59,6 +73,7 @@
   text-align: center;
   padding: 20px 0;
   font-size: 30px;
+  display: inline-block;
 }
 
 
@@ -69,9 +84,12 @@
     'header header header header header header'
     'menu main main main right right'
     'menu footer footer footer footer footer';
-  grid-gap: 10px;
+  grid-gap: 30px;
   background-color: darkgray;
   padding: 10px;
+  grid-template-columns: repeat(auto-fill, 200px);
+  /*height: 200px;*/
+  
 }
 
 .grid-container_2 > div {
@@ -92,9 +110,6 @@ input[type=text]{
 }
 
 
-
-
-
 .cont{
   height: 20px;
 
@@ -104,3 +119,5 @@ input[type=text]{
 
   
 }
+
+

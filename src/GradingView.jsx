@@ -65,7 +65,7 @@ class GradingView extends Component {
         output.push(
             <div class="item2">
                 <div className="grid-container_2 cont">Criteria</div>
-                {category.description}
+                        {category.description}
             </div>
         )
         output.push(

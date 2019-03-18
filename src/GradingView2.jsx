@@ -144,30 +144,24 @@ class GradingView extends Component {
         let output = []
 
         output.push(
-            <div class="item2">
-                <div className="grid-container_2 cont">Criteria</div>
-
+            <td className="description-td">
                 {category.description}
-
-            </div>
+            </td>
         )
         output.push(
-            <div class="item3">
-                <div className="grid-container_2 cont">Ratings</div>
+            <td className="button-td">
                 {this.makeRatings(studentInfo, category)}
-            </div>
+            </td>
         )
         output.push(
-            <div class="item4">
-                <div className="grid-container_2 cont">Pts</div>
+            <td>
                 {studentInfo[category.id + "_grade"]}/{category.points}
-            </div>
+             </td>
         )
         output.push(
-            <div class="item5">
-                <div className="grid-container_2 cont">Comments</div>
+            <td>
                 <input value = {this.state.comments[studentInfo.studentId + "_" + category.id]} onChange = {(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text" placeholder={studentInfo[category.id + "_comment"]}></input>
-            </div>
+            </td>
         )
         return output
     }
@@ -181,10 +175,9 @@ class GradingView extends Component {
 
             output.push(
 
-                <div class="grid-container">
-
+                <tr>
                     {this.newLoop2(studentInfo, categories[i])}
-                </div>
+                </tr>
 
             )
         }
@@ -195,8 +188,11 @@ class GradingView extends Component {
         let studentInfo = this.state.data.student_grades
         for (let i = 0; i < studentInfo.length; i++) {
             if (studentInfo[i].grouping == this.state.groupingDispalyed || this.state.groupingDispalyed === "All")
-                output.push(this.newLoop1(studentInfo[i]))
-
+                output.push(
+                    <table>
+                        {this.newLoop1(studentInfo[i])}
+                    </table>
+                )
         }
         return output
     }

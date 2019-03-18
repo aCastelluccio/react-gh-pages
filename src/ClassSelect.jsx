@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from "axios";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import GradingView from './GradingView'
+import GradingView from './GradingView2'
 
 class classSelect extends Component {
     constructor(props) {

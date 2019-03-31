@@ -5,6 +5,7 @@ import Loginscreen from './loginScreen'
 import GoogleLogin from 'react-google-login';
 import ClassSelect from './ClassSelect'
 import axios from "axios";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class App extends Component {
   constructor(props) {
@@ -16,13 +17,18 @@ class App extends Component {
       api_key: '',
       makeAccount: false, 
       value: "",
-      googleId: ''
+      googleId: '',
+      googleClient: process.env.REACT_APP_CLIENT_ID,
+      loading: false
     }
 
   }
 
    responseGoogle = (response) => {
     var self = this;
+    self.setState({
+      loading: true
+    })
     if (response.googleId) {
       var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
       var payload = {
@@ -30,7 +36,6 @@ class App extends Component {
       }
       axios.post(apiBaseUrl + 'googleAuth', payload)
           .then(function (my_response) {
-            console.log(response)
 
               if (my_response.data.code == 200) {
                 self.setState({
@@ -63,7 +68,6 @@ class App extends Component {
     var self = this;
     axios.post(apiBaseUrl + 'googleAuthCreateUser', payload)
         .then(function (response) {
-          console.log(response)
           let val = self.state.value
             if (response.data.code == 200) {
               self.setState({
@@ -81,7 +85,7 @@ class App extends Component {
     let no_auth = (
       <div className="App">
         <GoogleLogin
-          clientId="785713899867-to0gsfutckluhoa0lr1i1gep83b8bugo.apps.googleusercontent.com"
+          clientId={this.state.googleClient}
           buttonText="Login"
           onSuccess={this.responseGoogle}
           onFailure={this.responseGoogle}
@@ -89,17 +93,18 @@ class App extends Component {
         />
       </div>
     )
-    console.log(this.state.api_key)
     let auth = (
-   
+      
       <ClassSelect apiKey = {this.state.api_key} > </ClassSelect>
     )
 
+    let loading = (
+      <CircularProgress />
+    )
     let makeAccount = (
       <form onSubmit={this.handleSubmit}>
         <label>
-          Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />
+          <input placeholder= "Enter your API key from canvas here" type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -107,7 +112,7 @@ class App extends Component {
   
     return (
       <div className="App">
-        {this.state.authenticated ? auth : (this.state.makeAccount ? makeAccount : no_auth) }
+        {this.state.authenticated ? auth : (this.state.makeAccount ? makeAccount : (this.state.loading?loading: no_auth)) }
       </div>
     );
   }

@@ -59,8 +59,6 @@ class classSelect extends Component {
         axios.post(apiBaseUrl + 'listOfAssignments', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    console.log("assignments retrieval sucsessful");
-                    console.log(response.data)
                     let output = self.state.out
                     output.push(<div></div>)
                     for (let i = 0; i < response.data.data.length; i++) {
@@ -87,8 +85,6 @@ class classSelect extends Component {
         axios.post(apiBaseUrl + 'listOfClasses', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    console.log("retrieval sucsessful");
-                    console.log(response.data)
 
                     // Creates the elements to be outputted
 

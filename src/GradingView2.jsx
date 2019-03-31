@@ -34,12 +34,11 @@ class GradingView extends Component {
             "points": points,
             "assignmentId": this.state.assignment_id
         }
-        console.log(payload)
         var self = this
         axios.post(apiBaseUrl + 'updateGrades', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    console.log(response.data)
+                    // console.log(response.data)
                 }
                 else {
                     console.log("error")
@@ -55,7 +54,6 @@ class GradingView extends Component {
         this.setState({
             comments: temp
         });
-        console.log(this.state.comments)
     }
 
     handleCommentSubmit = (e, studentId, categoryId) => {
@@ -69,11 +67,9 @@ class GradingView extends Component {
                 "assignmentId": this.state.assignment_id
             }
             var self = this
-            console.log(payload)
             axios.post(apiBaseUrl + 'updateComments', payload)
                 .then(function (response) {
                     if (response.data.code == 200) {
-                        console.log(response.data)
                         let temp = self.state.comments
                         temp[studentId + "_" + categoryId] = ""
                         self.setState({
@@ -91,7 +87,6 @@ class GradingView extends Component {
 
     handleGroupChange = (event) => {
         this.setState({ groupingDispalyed: event.target.value });
-        console.log(event.target.value)
     }
 
     getGradesAndCategories = () => {
@@ -106,7 +101,6 @@ class GradingView extends Component {
         axios.post(apiBaseUrl + 'assignmentDetails', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    console.log(response.data)
                     self.setState({
                         data: response.data,
                         completedAPI: true
@@ -198,7 +192,6 @@ class GradingView extends Component {
         // console.log(this.state)
         if (!this.state.completedAPI)
             this.getGradesAndCategories()
-        console.log(this.state.groupingDispalyed)
         return (
             <div>
                 <h1>{this.state.assignment_name}</h1>

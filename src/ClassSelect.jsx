@@ -120,7 +120,6 @@ class classSelect extends Component {
             this.getListOfClasses()
         }
 
-
         let loading = (
             <MuiThemeProvider>
                 <div>

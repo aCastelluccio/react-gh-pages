@@ -92,7 +92,6 @@ class classSelect extends Component {
 
                         )
 
-
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
                         output.push(
@@ -130,8 +129,6 @@ class classSelect extends Component {
         axios.post(apiBaseUrl + 'listOfClasses', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    console.log("retrieval sucsessful");
-                    console.log(response.data)
 
                     // Creates the elements to be outputted
 
@@ -176,7 +173,6 @@ class classSelect extends Component {
         if (!this.state.loadedClasses) {
             this.getListOfClasses()
         }
-        console.log(this.state.api_key)
 
         let loading = (
             <MuiThemeProvider>

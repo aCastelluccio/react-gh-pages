@@ -6,7 +6,7 @@
     opacity: 0.6;*/
 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    max-width: 100%;
+    max-width: 80%;
     margin: auto;
     text-align: center;
     font-family: arial;
@@ -115,7 +115,7 @@ img{
     width: 100%;
   }
 
-  td,th{
+  .assignment-td,.assignment-tr{
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;

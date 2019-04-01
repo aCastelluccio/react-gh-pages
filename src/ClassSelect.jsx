@@ -52,12 +52,12 @@ class classSelect extends Component {
     }
 
     sortAssigments=(assignment)=>{
-        console.log(typeof assignment)
+       
 
         let britt = assignment.data.sort(function (a,b){
             return new Date(a.due_at) - new Date(b.due_at)
         })
-        console.log(britt)
+       
     }
 
     getListOfAssignments = (id, name) => {
@@ -82,7 +82,7 @@ class classSelect extends Component {
 
                             <div>
                                 <table className="assignment-table">
-                                    <tr>
+                                    <tr className="assignment-tr">
                                     <th>Assignment</th>   
                                     </tr>
                                 </table>
@@ -99,8 +99,8 @@ class classSelect extends Component {
                             //response.data[i].
                             <div>
                                <table className="assignment-table">
-                                     <tr>
-                                        <td>
+                                     <tr className="assignment-tr">
+                                        <td className="assignment-td">
                                             <button className="assignment-btns" onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
                                         </td>
                                     </tr>

@@ -17,7 +17,8 @@ class GradingView extends Component {
             groupingDispalyed: 'All',
             typing: false,
             typingTimeout: 0,
-            comments: {}
+            comments: {},
+            groupings: {'test':1}
         }
     }
 
@@ -50,7 +51,8 @@ class GradingView extends Component {
     handleCommentChange = (e, studentId, catId) => {
 
         let temp = this.state.comments
-        temp[studentId + "_" + catId] = e.target.value
+        temp[studentId] = {}
+        temp[studentId]["_" + catId] = e.target.value
         this.setState({
             comments: temp
         });
@@ -63,7 +65,7 @@ class GradingView extends Component {
             var payload = {
                 "studentId": studentId,
                 "categoryId": categoryId,
-                "comment": this.state.comments[studentId + "_" + categoryId],
+                "comment": this.state.comments[studentId]["_" + categoryId],
                 "assignmentId": this.state.assignment_id
             }
             var self = this
@@ -71,7 +73,7 @@ class GradingView extends Component {
                 .then(function (response) {
                     if (response.data.code == 200) {
                         let temp = self.state.comments
-                        temp[studentId + "_" + categoryId] = ""
+
                         self.setState({
                             comments: temp
                         })
@@ -88,6 +90,29 @@ class GradingView extends Component {
     handleGroupChange = (event) => {
         this.setState({ groupingDispalyed: event.target.value });
     }
+
+    handleGroupChangeSpecificStudent = (studentId, event) => {
+        let e = event.target.value;
+
+        var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
+        var payload = {
+            "studentId": studentId,
+            "assignmentId": this.state.assignment_id,
+            "group": event.target.value
+        }
+        let temp = this.state.groupings;
+        var self = this;
+        axios.post(apiBaseUrl + 'updateGrouping', payload)
+            .then(function (response) {
+               
+                temp[studentId] = e
+                self.setState({
+                    groupings:temp
+                })
+            })
+
+    }
+
 
     getGradesAndCategories = () => {
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
@@ -116,11 +141,13 @@ class GradingView extends Component {
     makeRatings = (studentGrades, category) => {
         let output = []
         let ratings = category.ratings
+        let student_total = 0;
         for (let i = 0; i < ratings.length; i++) {
             if (studentGrades[category.id + "_grade"] == ratings[i].points) {
                 output.push(
                     <button className="rubric-button-yes-selected" onClick={(e) => this.handleSubmit(e, studentGrades.studentId, ratings[i].points, category.id)}>{ratings[i].points}<div></div> {ratings[i].description}</button>
                 )
+                student_total = ratings[i].points
             }
             else {
                 output.push(
@@ -128,12 +155,13 @@ class GradingView extends Component {
                 )
             }
         }
-        return output;
+        return [output, student_total];
     }
 
-    newLoop2 = (studentInfo, category) => {
+    makeColumns = (studentInfo, category) => {
         let output = []
-
+        let ratings = this.makeRatings(studentInfo, category);
+        let comment = studentInfo[category.id + "_comment"]
         output.push(
             <td className="description-td">
                 {category.description}
@@ -141,7 +169,7 @@ class GradingView extends Component {
         )
         output.push(
             <td className="button-td">
-                {this.makeRatings(studentInfo, category)}
+                {ratings[0]}
             </td>
         )
         output.push(
@@ -151,43 +179,88 @@ class GradingView extends Component {
         )
         output.push(
             <td className="comment-td">
-                <textarea className="comment-input" value={this.state.comments[studentInfo.studentId + "_" + category.id]} onChange={(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text" placeholder={studentInfo[category.id + "_comment"]}></textarea>
+                <textarea className="comment-input" value={studentInfo[category.id + "_comment"]} onChange={(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text"></textarea>
             </td>
         )
-        return output
+        return [output, ratings[1], comment]
     }
 
-    newLoop1 = (studentInfo) => {
+    makeRow = (studentInfo) => {
         let output = []
         let categories = this.state.data.categories;
+        let grade = 0;
+        let comment = []
         for (let i = 0; i < categories.length; i++) {
+            let column = this.makeColumns(studentInfo, categories[i])
             output.push(
 
                 <tr>
-                    {this.newLoop2(studentInfo, categories[i])}
+                    {column[0]}
                 </tr>
-            )
+            );
+            grade += column[1];
+            if (column[2] != null)
+                comment.push(<div>{column[2]}</div>)
         }
-        return output
+        return [output, grade, comment]
     }
-    newLoop = () => {
+
+
+    makeTable = () => {
         let output = []
         let studentInfo = this.state.data.student_grades
         for (let i = 0; i < studentInfo.length; i++) {
+            
+            if (this.state.groupings[studentInfo[i].studentId]){
+                studentInfo[i].grouping = this.state.groupings[studentInfo[i].studentId] 
+            }
             if (studentInfo[i].grouping == this.state.groupingDispalyed || this.state.groupingDispalyed === "All") {
+                let displayGroup = studentInfo[i].grouping;
+                console.log("displayGroup")
+                console.log(displayGroup)
+                console.log("this.state.groupings[studentInfo[i].studentId]")
+                console.log(this.state.groupings[studentInfo[i].studentId])
+                let row = this.makeRow(studentInfo[i])
                 output.push(<div class="name">{studentInfo[i].studentName}</div>)
                 output.push(
                     <div>
                         <table>
-                            {this.newLoop1(studentInfo[i])}
+                            {row[0]}
                         </table>
-                        <textarea className="comment-input"> </textarea>
+                        {/* <textarea className="comment-input"> </textarea> */}
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="grade">GRADE={row[1]}</div>
+                                </td>
+                                <td>
+                                    <div class="grade">COMMENT={row[2]}</div>
+                                </td>
+                                <td>
+                                    <div class="status">
+                                    Group = {displayGroup}
+                                        <select onChange={(e) => this.handleGroupChangeSpecificStudent(studentInfo[i].studentId, e)}>
+                                            <option selected disabled>{displayGroup}</option>
+                                            <option value="Not Graded">Not Graded</option>
+                                            <option value="Needs Attention">Needs Attention</option>
+                                            <option value="Graded By Student Grader">Graded By Student Grader</option>
+                                            <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
                     </div>
                 )
+
             }
         }
         return output
     }
+
+
+
     render() {
         // console.log(this.state)
         if (!this.state.completedAPI)
@@ -197,15 +270,16 @@ class GradingView extends Component {
                 <h1>{this.state.assignment_name}</h1>
                 <select value={this.state.groupingDispalyed} onChange={this.handleGroupChange}>
                     <option value="All">All</option>
-                    <option value="Needs_attention">Needs Attention</option>
-                    <option value="not graded">Not Graded</option>
-                    <option value="Graded">Graded</option>
+                    <option value="Not Graded">Not Graded</option>
+                    <option value="Needs Attention">Needs Attention</option>
+                    <option value="Graded By Student Grader">Graded By Student Grader</option>
+                    <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
                 </select>
 
                 <div></div>
 
                 {/* <button className="rubric-button-not-selected" onClick={(e) => this.handleSubmit(e)}>cat1</button> */}
-                {this.state.completedAPI ? this.newLoop() : (<div>loading</div>)}
+                {this.state.completedAPI ? this.makeTable() : (<div>loading...</div>)}
 
 
             </div>

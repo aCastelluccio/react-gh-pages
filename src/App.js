@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import './App.css';
-import Loginscreen from './loginScreen'
 import GoogleLogin from 'react-google-login';
 import ClassSelect from './ClassSelect'
 import axios from "axios";
@@ -15,7 +13,7 @@ class App extends Component {
       uploadScreen: [],
       authenticated: false,
       api_key: '',
-      makeAccount: false, 
+      makeAccount: false,
       value: "",
       googleId: '',
       googleClient: process.env.REACT_APP_CLIENT_ID,
@@ -24,7 +22,7 @@ class App extends Component {
 
   }
 
-   responseGoogle = (response) => {
+  responseGoogle = (response) => {
     var self = this;
     self.setState({
       loading: true
@@ -32,60 +30,59 @@ class App extends Component {
     if (response.googleId) {
       var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
       var payload = {
-          "googleId": response.profileObj.googleId
+        "googleId": response.profileObj.googleId
       }
       axios.post(apiBaseUrl + 'googleAuth', payload)
-          .then(function (my_response) {
-
-              if (my_response.data.code == 200) {
-                self.setState({
-                    api_key: my_response.data.body.apiKey,
-                    authenticated: true
-                  })
-              }
-              else {
-                self.setState({
-                    googleId: response.profileObj.googleId, 
-                    makeAccount:true
-                  })
-              }
-          })
+        .then(function (my_response) {
+          if (my_response.data.code == 200) {
+            self.setState({
+              api_key: my_response.data.body.apiKey,
+              authenticated: true
+            })
+          }
+          else {
+            self.setState({
+              googleId: response.profileObj.googleId,
+              makeAccount: true
+            })
+          }
+        })
     }
   }
 
   handleChange = (event) => {
-    
-    this.setState({value: event.target.value});
+
+    this.setState({ value: event.target.value });
   }
 
   handleSubmit = (event) => {
     event.preventDefault();
     var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
     var payload = {
-        "googleId": this.state.googleId,
-        "apiKey" : this.state.value
+      "googleId": this.state.googleId,
+      "apiKey": this.state.value
     }
     var self = this;
     axios.post(apiBaseUrl + 'googleAuthCreateUser', payload)
-        .then(function (response) {
-          let val = self.state.value
-            if (response.data.code == 200) {
-              self.setState({
-                  api_key: val,
-                  authenticated: true
-                })
-            }
-            else {
-                alert("error")
-            }
-        })
+      .then(function (response) {
+        let val = self.state.value
+        if (response.data.code == 200) {
+          self.setState({
+            api_key: val,
+            authenticated: true
+          })
+        }
+        else {
+          alert("error")
+        }
+      })
   }
 
   render() {
     let no_auth = (
       <div className="App">
         <GoogleLogin
-          clientId={this.state.googleClient}
+          clientId={process.env.REACT_APP_CLIENT_ID}
           buttonText="Login"
           onSuccess={this.responseGoogle}
           onFailure={this.responseGoogle}
@@ -94,8 +91,8 @@ class App extends Component {
       </div>
     )
     let auth = (
-      
-      <ClassSelect apiKey = {this.state.api_key} > </ClassSelect>
+
+      <ClassSelect apiKey={this.state.api_key} > </ClassSelect>
     )
 
     let loading = (
@@ -104,15 +101,15 @@ class App extends Component {
     let makeAccount = (
       <form onSubmit={this.handleSubmit}>
         <label>
-          <input placeholder= "Enter your API key from canvas here" type="text" value={this.state.value} onChange={this.handleChange} />
+          <input placeholder="Enter your API key from canvas here" type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
         <input type="submit" value="Submit" />
       </form>
     )
-  
+
     return (
       <div className="App">
-        {this.state.authenticated ? auth : (this.state.makeAccount ? makeAccount : (this.state.loading?loading: no_auth)) }
+        {this.state.authenticated ? auth : (this.state.makeAccount ? makeAccount : (this.state.loading ? loading : no_auth))}
       </div>
     );
   }

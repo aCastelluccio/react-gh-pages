@@ -24,11 +24,26 @@
 
 }
 .comment-input{
-  height: 110px;
+  /*height: 110px;
   line-height: 20px;
   width: 100%;
   word-wrap: break-word;
-  vertical-align: top;
+  vertical-align: top;*/
+
+  -moz-appearance: textfield-multiline;
+  -webkit-appearance: textarea;
+  border: 1px solid gray;
+  font: medium -moz-fixed;
+  font: -webkit-small-control;
+  height: 28px;
+  overflow: auto;
+  padding: 2px;
+  resize: both;
+  width: 400px;
+ 
+
+
+
 }
 
 .rubric-button-yes-selected{

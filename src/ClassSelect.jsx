@@ -3,6 +3,7 @@ import axios from "axios";
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import GradingView from './GradingView2'
+import "./ClassSelection.css"
 
 class classSelect extends Component {
     constructor(props) {
@@ -16,8 +17,8 @@ class classSelect extends Component {
 
     }
 
-    handleSubmit = (id, event) => {
-        this.getListOfAssignments(id);
+    handleSubmit = (id, name, event) => {
+        this.getListOfAssignments(id, name);
     }
 
     handleAssignmentSubmit = (id, name, event) => {
@@ -36,6 +37,7 @@ class classSelect extends Component {
                     self.setState({
                         out:
                             (
+                            
                                 <div>
                                     <GradingView assignment_id={id} name={name} apiKey={self.state.api_key} classId={self.state.classId} />
                                 </div>
@@ -49,7 +51,16 @@ class classSelect extends Component {
 
     }
 
-    getListOfAssignments = (id) => {
+    sortAssigments=(assignment)=>{
+        console.log(typeof assignment)
+
+        let britt = assignment.data.sort(function (a,b){
+            return new Date(a.due_at) - new Date(b.due_at)
+        })
+        console.log(britt)
+    }
+
+    getListOfAssignments = (id, name) => {
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
         var self = this;
         var payload = {
@@ -59,10 +70,43 @@ class classSelect extends Component {
         axios.post(apiBaseUrl + 'listOfAssignments', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
-                    let output = self.state.out
-                    output.push(<div></div>)
+                    console.log("assignments retrieval sucsessful");
+                    console.log(response.data)
+
+                    console.log(self.sortAssigments(response.data))
+                    let output = [];
+                    output.push(
+
+                        <div>
+                            <h2>{name}</h2>
+
+                            <div>
+                                <table className="assignment-table">
+                                    <tr>
+                                    <th>Assignment</th>   
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    
+
+                        )
+
                     for (let i = 0; i < response.data.data.length; i++) {
-                        output.push(<button onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>)
+                        //edit here
+                        output.push(
+                            //edit here
+                            //response.data[i].
+                            <div>
+                               <table className="assignment-table">
+                                     <tr>
+                                        <td>
+                                            <button className="assignment-btns" onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        )
                     }
                     self.setState({
                         out: output,
@@ -90,7 +134,21 @@ class classSelect extends Component {
 
                     let output = []
                     for (let i = 0; i < response.data.data.length; i++) {
-                        output.push(<button onClick={(e) => self.handleSubmit(response.data.data[i].id, e)}>{response.data.data[i].name}</button>)
+                        //edit here
+                        output.push(
+                            //edit here
+                                <div className="column">
+                                <div className="container">
+                                    <div className="card">
+                                        <img src={"https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
+                                        {/*<div className="container">*/}
+                                           {/*<button onClick={(e) => self.handleSubmit(response.data.data[i].id, e)}>{response.data.data[i].name}</button>*/}
+                                           <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
+                                        {/*</div>*/}
+                                        </div>
+                                    </div>
+                                </div>
+                        )
                     }
 
 

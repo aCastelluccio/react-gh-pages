@@ -83,7 +83,7 @@ class classSelect extends Component {
                             <div>
                                 <table className="assignment-table">
                                     <tr className="assignment-tr">
-                                    <th>Assignment</th>   
+                                        <th>Assignment</th>   
                                     </tr>
                                 </table>
                             </div>

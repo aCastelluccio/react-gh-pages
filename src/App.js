@@ -79,6 +79,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.googleClient)
     let no_auth = (
       <div className="App">
         <GoogleLogin

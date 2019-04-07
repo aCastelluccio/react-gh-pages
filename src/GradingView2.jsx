@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./rubric.css"
 import axios from "axios";
+import CommentBox from './components/new_pages/CommentBox'
+
 const ReactDOM = require('react-dom')
 
 class GradingView extends Component {
@@ -53,6 +55,7 @@ class GradingView extends Component {
         let temp = this.state.comments
         temp[studentId] = {}
         temp[studentId]["_" + catId] = e.target.value
+        this.state.comments = temp;
         this.setState({
             comments: temp
         });
@@ -88,7 +91,12 @@ class GradingView extends Component {
     }
 
     handleGroupChange = (event) => {
-        this.setState({ groupingDispalyed: event.target.value });
+        this.setState({ 
+            groupingDispalyed: event.target.value,
+            completedAPI: false
+        });
+        this.state.groupingDispalyed = event.target.value
+        
     }
 
     handleGroupChangeSpecificStudent = (studentId, event) => {
@@ -161,7 +169,20 @@ class GradingView extends Component {
     makeColumns = (studentInfo, category) => {
         let output = []
         let ratings = this.makeRatings(studentInfo, category);
+        
+        let com_val = ""
         let comment = studentInfo[category.id + "_comment"]
+        if (this.state.comments[studentInfo.studentId]){
+            com_val = this.state.comments[studentInfo.studentId] ["_"+category.id]
+            // console.log(com_val)
+        }
+        else {
+            // console.log(studentInfo)
+            if (studentInfo[category.id+"_comment"])
+                com_val = studentInfo[category.id+"_comment"]
+        }
+       
+
         output.push(
             <td className="description-td">
                 {category.description}
@@ -179,7 +200,8 @@ class GradingView extends Component {
         )
         output.push(
             <td className="comment-td">
-                <textarea className="comment-input" value={studentInfo[category.id + "_comment"]} onChange={(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text"></textarea>
+                {/* <textarea className="comment-input" value={com_val} onChange={(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text">{studentInfo[category.id + "_comment"]} </textarea> */}
+                <CommentBox assign= {this.state.assignment_id} com ={com_val} stuId = {studentInfo.studentId} catId = {category.id} catCom ={studentInfo[category.id + "_comment"]}> </CommentBox>
             </td>
         )
         return [output, ratings[1], comment]
@@ -190,6 +212,7 @@ class GradingView extends Component {
         let categories = this.state.data.categories;
         let grade = 0;
         let comment = []
+        // console.log(categories)
         for (let i = 0; i < categories.length; i++) {
             let column = this.makeColumns(studentInfo, categories[i])
             output.push(
@@ -214,13 +237,14 @@ class GradingView extends Component {
             if (this.state.groupings[studentInfo[i].studentId]){
                 studentInfo[i].grouping = this.state.groupings[studentInfo[i].studentId] 
             }
+
             if (studentInfo[i].grouping == this.state.groupingDispalyed || this.state.groupingDispalyed === "All") {
+
                 let displayGroup = studentInfo[i].grouping;
-                console.log("displayGroup")
-                console.log(displayGroup)
-                console.log("this.state.groupings[studentInfo[i].studentId]")
-                console.log(this.state.groupings[studentInfo[i].studentId])
+                
+              
                 let row = this.makeRow(studentInfo[i])
+
                 output.push(<div class="name">{studentInfo[i].studentName}</div>)
                 output.push(
                     <div>
@@ -241,7 +265,7 @@ class GradingView extends Component {
                                     Group = {displayGroup}
                                         <select onChange={(e) => this.handleGroupChangeSpecificStudent(studentInfo[i].studentId, e)}>
                                             <option selected disabled>{displayGroup}</option>
-                                            <option value="Not Graded">Not Graded</option>
+                                            <option value="not graded">Not Graded</option>
                                             <option value="Needs Attention">Needs Attention</option>
                                             <option value="Graded By Student Grader">Graded By Student Grader</option>
                                             <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
@@ -262,7 +286,6 @@ class GradingView extends Component {
 
 
     render() {
-        // console.log(this.state)
         if (!this.state.completedAPI)
             this.getGradesAndCategories()
         return (
@@ -270,15 +293,13 @@ class GradingView extends Component {
                 <h1>{this.state.assignment_name}</h1>
                 <select value={this.state.groupingDispalyed} onChange={this.handleGroupChange}>
                     <option value="All">All</option>
-                    <option value="Not Graded">Not Graded</option>
+                    <option value="not graded">Not Graded</option>
                     <option value="Needs Attention">Needs Attention</option>
                     <option value="Graded By Student Grader">Graded By Student Grader</option>
                     <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
                 </select>
 
                 <div></div>
-
-                {/* <button className="rubric-button-not-selected" onClick={(e) => this.handleSubmit(e)}>cat1</button> */}
                 {this.state.completedAPI ? this.makeTable() : (<div>loading...</div>)}
 
 

@@ -188,6 +188,7 @@ class GradingView extends Component {
             <td className="description-td">
                 {category.description}
             </td>
+            
         )
         output.push(
             <td className="button-td">

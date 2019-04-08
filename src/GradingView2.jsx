@@ -115,7 +115,8 @@ class GradingView extends Component {
                
                 temp[studentId] = e
                 self.setState({
-                    groupings:temp
+                    groupings:temp,
+                    completedAPI: false
                 })
             })
 

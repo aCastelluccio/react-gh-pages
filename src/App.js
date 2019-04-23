@@ -104,7 +104,9 @@ class App extends Component {
    )
 
    let loading = (
-     <CircularProgress />
+    <div className="circular-progress">
+    <CircularProgress />
+    </div>
    )
    let makeAccount = (
      <form onSubmit={this.handleSubmit}>

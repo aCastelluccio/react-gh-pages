@@ -177,7 +177,7 @@ class classSelect extends Component {
 
         let loading = (
             <MuiThemeProvider>
-                <div>
+                <div className="loading">
                     Loading...
                 </div>
             </MuiThemeProvider>

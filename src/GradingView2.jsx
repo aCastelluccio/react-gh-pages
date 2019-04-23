@@ -242,9 +242,12 @@ class GradingView extends Component {
    makeTable = () => {
        let output = []
        output.push(
-           <div>
+        <div>
+            <div className="back-button">
                <button onClick={this.handleBack}>Back</button>
-               <h1>{this.state.assignment_name}</h1>
+               </div>
+            <h1 className="assignment-name">{this.state.assignment_name}</h1>
+               <div className="grouping-status-top">
                <select value={this.state.groupingDispalyed} onChange={this.handleGroupChange}>
                    <option value="All">All</option>
                    <option value="not graded">Not Graded</option>
@@ -252,6 +255,7 @@ class GradingView extends Component {
                    <option value="Graded By Student Grader">Graded By Student Grader</option>
                    <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
                </select>
+           </div>
            </div>
        )
 
@@ -278,15 +282,18 @@ class GradingView extends Component {
                        {/* <textarea className="comment-input"> </textarea> */}
                        <table>
                            <tr>
-                               <td>
+                               <td className="overall_grade-td">
                                    <div class="grade">GRADE={row[1]}</div>
                                </td>
-                               <td>
+                               <td className="overall_comment-td">
                                    <div class="grade">COMMENT={row[2]}</div>
                                </td>
-                               <td>
+                               <td className="grouping-status-td">
                                    <div class="status">
                                        Group = {displayGroup}
+                                       </div>
+                                       </td>
+                                       <td>
                                        <select onChange={(e) => this.handleGroupChangeSpecificStudent(studentInfo[i].studentId, e)}>
                                            <option selected disabled>{displayGroup}</option>
                                            <option value="not graded">Not Graded</option>
@@ -294,8 +301,8 @@ class GradingView extends Component {
                                            <option value="Graded By Student Grader">Graded By Student Grader</option>
                                            <option value="Graded By Professor/ Ready for Submission">Graded By Professor/ Ready for Submission</option>
                                        </select>
-                                   </div>
-                               </td>
+                                       </td>
+                               
                            </tr>
                        </table>
 

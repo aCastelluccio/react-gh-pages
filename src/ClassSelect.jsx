@@ -140,7 +140,8 @@ class classSelect extends Component {
                                 <div className="column">
                                 <div className="container">
                                     <div className="card">
-                                        <img src={"https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
+
+                                        <img src={response.data.data[i].image_download_url?response.data.data[i].image_download_url:"https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                         {/*<div className="container">*/}
                                            {/*<button onClick={(e) => self.handleSubmit(response.data.data[i].id, e)}>{response.data.data[i].name}</button>*/}
                                            <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
@@ -176,7 +177,7 @@ class classSelect extends Component {
 
         let loading = (
             <MuiThemeProvider>
-                <div>
+                <div className="loading">
                     Loading...
                 </div>
             </MuiThemeProvider>

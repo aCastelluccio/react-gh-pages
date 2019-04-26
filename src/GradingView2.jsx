@@ -3,6 +3,8 @@ import "./rubric.css"
 import axios from "axios";
 import CommentBox from './components/new_pages/CommentBox'
 import ClassSelect from './ClassSelect'
+import { EditorFormatColorReset } from "material-ui/svg-icons";
+import TotalGradesView from './TotalGradesView'
 
 const ReactDOM = require('react-dom')
 
@@ -22,13 +24,19 @@ class GradingView extends Component {
            typingTimeout: 0,
            comments: {},
            groupings: { 'test': 1 },
-           back: false
+           back: false,
+           finalize: false
        }
    }
 
    handleBack = (e) => {
        this.setState({
            back: true
+       })
+   }
+   handleFinalize = (e) => {
+       this.setState({
+           finalize: true
        })
    }
 
@@ -246,6 +254,10 @@ class GradingView extends Component {
             <div className="back-button">
                <button onClick={this.handleBack}>Back</button>
                </div>
+            <div className="back-button">
+                <button onClick={this.handleFinalize}>Finalize and Submit Grades</button>
+            </div>
+
             <h1 className="assignment-name">{this.state.assignment_name}</h1>
                <div className="grouping-status-top">
                <select value={this.state.groupingDispalyed} onChange={this.handleGroupChange}>
@@ -323,7 +335,7 @@ class GradingView extends Component {
            <div>
 
                <div></div>
-               {this.state.completedAPI ? (this.state.back ? <ClassSelect apiKey={this.state.api_key}></ClassSelect> : this.makeTable()) : (<div>loading...</div>)}
+               {this.state.completedAPI ? (this.state.back ? <ClassSelect apiKey={this.state.api_key}></ClassSelect> : this.state.finalize ? <TotalGradesView apiKey={this.state.api_key}></TotalGradesView> : this.makeTable()) : (<div>loading...</div>)}
 
 
 

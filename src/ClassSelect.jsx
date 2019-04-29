@@ -4,6 +4,7 @@ import axios from "axios";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import GradingView from './GradingView2'
 import "./ClassSelection.css"
+import { blue } from '@material-ui/core/colors';
 
 class classSelect extends Component {
     constructor(props) {
@@ -163,6 +164,20 @@ class classSelect extends Component {
                 console.log(error)
             })
     }
+    getRandomColor = () => {
+        var num = Math.floor(Math.random() * 4);
+        var col = 'gray'
+        if (num == 1)
+            col = 'blue'
+        if (num == 2)
+            col = 'red'
+        if (num ==3)
+            col = 'green'
+        var ob = {'background-color':col}
+        console.log(ob)
+        return ob
+
+    }
     getListOfClasses = () => {
 
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
@@ -185,7 +200,7 @@ class classSelect extends Component {
                                 //edit here
                                 <div className="column">
                                     <div className="container">
-                                        <div className="card">
+                                        <div className="card" style = {self.getRandomColor()}>
 
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
@@ -205,7 +220,7 @@ class classSelect extends Component {
                                 //edit here
                                 <div className="column">
                                     <div className="container">
-                                        <div className="card">
+                                    <div className="card" style = {self.getRandomColor()}>
 
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>

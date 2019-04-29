@@ -13,7 +13,8 @@ class classSelect extends Component {
             loadedClasses: false,
             out: (<div></div>),
             classId: "",
-            googleId: props.googleId
+            googleId: props.googleId,
+            favorites: []
         }
 
     }
@@ -152,6 +153,7 @@ class classSelect extends Component {
         }
         axios.post(apiBaseUrl + 'getFavorites', payload)
             .then(function (response) {
+                if(response.data.data[0]['favorites'])
                 self.setState({
                     favorites: response.data.data[0]['favorites'].split(",")
                 })

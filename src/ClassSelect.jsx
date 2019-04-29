@@ -40,7 +40,7 @@ class classSelect extends Component {
                         out:
                             (
                                 <div>
-                                    <GradingView assignment_id={id} name={name} apiKey={self.state.api_key} classId={self.state.classId} />
+                                    <GradingView assignment_id={id} googleId={self.state.googleId} name={name} apiKey={self.state.api_key} classId={self.state.classId} />
                                 </div>
                             )
                     })

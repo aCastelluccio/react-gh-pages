@@ -25,7 +25,8 @@ class GradingView extends Component {
            comments: {},
            groupings: { 'test': 1 },
            back: false,
-           finalize: false
+           finalize: false,
+           googleId: props.googleId
        }
    }
 
@@ -335,7 +336,7 @@ class GradingView extends Component {
            <div>
 
                <div></div>
-               {this.state.completedAPI ? (this.state.back ? <ClassSelect apiKey={this.state.api_key}></ClassSelect> : this.state.finalize ? <TotalGradesView apiKey={this.state.api_key}></TotalGradesView> : this.makeTable()) : (<div>loading...</div>)}
+               {this.state.completedAPI ? (this.state.back ? <ClassSelect googleId={this.state.googleId} apiKey={this.state.api_key}></ClassSelect> : this.state.finalize ? <TotalGradesView apiKey={this.state.api_key}></TotalGradesView> : this.makeTable()) : (<div>loading...</div>)}
 
 
 

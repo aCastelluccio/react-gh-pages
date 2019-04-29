@@ -67,6 +67,7 @@ class classSelect extends Component {
             "api": this.state.api_key,
             "classId": id
         }
+
         axios.post(apiBaseUrl + 'listOfAssignments', payload)
             .then(function (response) {
                 if (response.data.code == 200) {
@@ -94,19 +95,22 @@ class classSelect extends Component {
 
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
-                        output.push(
-                            //edit here
-                            //response.data[i].
-                            <div>
-                                <table className="assignment-table">
-                                    <tr className="assignment-tr">
-                                        <td className="assignment-td">
-                                            <button className="assignment-btns" onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        )
+                        if (response.data.data[i].rubric && response.data.data[i].has_submitted_submissions && response.data.data[i].needs_grading_count>0) {
+                            console.log(response.data.data[i])
+                            output.push(
+                                //edit here
+                                //response.data[i].
+                                <div>
+                                    <table className="assignment-table">
+                                        <tr className="assignment-tr">
+                                            <td className="assignment-td">
+                                                <button className="assignment-btns" onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            )
+                        }
                     }
                     self.setState({
                         out: output,
@@ -173,8 +177,8 @@ class classSelect extends Component {
                     output.push(<div><h1>Favorites</h1></div>)
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
-                        if (self.state.favorites.includes(response.data.data[i].id.toString())){
-                        console.log("was true")
+                        if (self.state.favorites.includes(response.data.data[i].id.toString())) {
+                            console.log("was true")
                             output.push(
                                 //edit here
                                 <div className="column">
@@ -190,11 +194,11 @@ class classSelect extends Component {
                                 </div>
                             )
                         }
-                    }   
+                    }
                     output.push(<div className="move"><hr></hr></div>)
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
-                        if (!self.state.favorites.includes(response.data.data[i].id.toString())){
+                        if (!self.state.favorites.includes(response.data.data[i].id.toString())) {
                             output.push(
                                 //edit here
                                 <div className="column">

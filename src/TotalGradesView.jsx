@@ -18,7 +18,8 @@ class TotalGradesView extends Component {
             grades: props.grades,
             back: false,
             completedAPI: false,
-            data: []
+            data: [],
+            googleId: props.googleId
         }
     }
 
@@ -69,6 +70,8 @@ class TotalGradesView extends Component {
             for (let j=0; j<categories.length; j++){
                 let cat = categories[j]
                 let add = (cat.id + "_grade")
+                
+                if(student[cat.id + "_grade"])
                 grade += parseInt(student[cat.id + "_grade"])
                 if((student[cat.id + "_comment"]) != null){
                 comment = comment + "\n\n" + (student[cat.id + "_comment"])
@@ -112,7 +115,7 @@ class TotalGradesView extends Component {
     render() {
         return(
             <div>
-               {(this.state.back ? <GradingView apiKey={this.state.api_key}></GradingView> : this.makeTable2())}
+               {(this.state.back ? <GradingView classId={this.state.class_id} assignment_id={this.state.assignment_id} assignment_name={this.state.name} id={this.state.id} googleId={this.state.googleId} apiKey={this.state.api_key}></GradingView> : this.makeTable2())}
             </div>
         );
     }

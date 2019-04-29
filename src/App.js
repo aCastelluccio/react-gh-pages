@@ -37,8 +37,10 @@ class App extends Component {
      }
      axios.post(apiBaseUrl + 'googleAuth', payload)
        .then(function (my_response) {
+       
          if (my_response.data.code == 200) {
            self.setState({
+             googleId: response.googleId,
              api_key: my_response.data.body.apiKey,
              authenticated: true
            })
@@ -100,7 +102,7 @@ class App extends Component {
    )
    let auth = (
 
-     <ClassSelect apiKey={this.state.api_key} > </ClassSelect>
+     <ClassSelect apiKey={this.state.api_key} googleId={this.state.googleId}> </ClassSelect>
    )
 
    let loading = (

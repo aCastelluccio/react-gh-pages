@@ -12,7 +12,8 @@ class classSelect extends Component {
             api_key: props.apiKey,
             loadedClasses: false,
             out: (<div></div>),
-            classId: ""
+            classId: "",
+            googleId: props.googleId
         }
 
     }
@@ -37,7 +38,6 @@ class classSelect extends Component {
                     self.setState({
                         out:
                             (
-                            
                                 <div>
                                     <GradingView assignment_id={id} name={name} apiKey={self.state.api_key} classId={self.state.classId} />
                                 </div>
@@ -51,13 +51,13 @@ class classSelect extends Component {
 
     }
 
-    sortAssigments=(assignment)=>{
-       
+    sortAssigments = (assignment) => {
 
-        let britt = assignment.data.sort(function (a,b){
+
+        let britt = assignment.data.sort(function (a, b) {
             return new Date(a.due_at) - new Date(b.due_at)
         })
-       
+
     }
 
     getListOfAssignments = (id, name) => {
@@ -83,14 +83,14 @@ class classSelect extends Component {
                             <div>
                                 <table className="assignment-table">
                                     <tr className="assignment-tr">
-                                        <th className="header">Assignment</th>   
+                                        <th className="header">Assignment</th>
                                     </tr>
                                 </table>
                             </div>
                         </div>
-                    
 
-                        )
+
+                    )
 
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
@@ -98,8 +98,8 @@ class classSelect extends Component {
                             //edit here
                             //response.data[i].
                             <div>
-                               <table className="assignment-table">
-                                     <tr className="assignment-tr">
+                                <table className="assignment-table">
+                                    <tr className="assignment-tr">
                                         <td className="assignment-td">
                                             <button className="assignment-btns" onClick={(e) => self.handleAssignmentSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
                                         </td>
@@ -119,6 +119,44 @@ class classSelect extends Component {
             })
     }
 
+    addFavorite = (id, event) => {
+        var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
+        var self = this;
+        console.log(this.state.googleId)
+        var payload = {
+            "googleId": this.state.googleId,
+            "class": id
+        }
+        axios.post(apiBaseUrl + 'addFavorite', payload)
+            .then(function (response) {
+                self.setState({
+                    loadedClasses: false
+                })
+                console.log("sucsess")
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+
+    getFavorite = (event) => {
+        var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
+        var self = this;
+        console.log(this.state.googleId)
+        var payload = {
+            "googleId": this.state.googleId,
+        }
+        axios.post(apiBaseUrl + 'getFavorites', payload)
+            .then(function (response) {
+                self.setState({
+                    favorites: response.data.data[0]['favorites'].split(",")
+                })
+
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
     getListOfClasses = () => {
 
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
@@ -131,25 +169,47 @@ class classSelect extends Component {
                 if (response.data.code == 200) {
 
                     // Creates the elements to be outputted
-
                     let output = []
+                    output.push(<div><h1>Favorites</h1></div>)
                     for (let i = 0; i < response.data.data.length; i++) {
                         //edit here
-                        output.push(
-                            //edit here
+                        if (self.state.favorites.includes(response.data.data[i].id.toString())){
+                        console.log("was true")
+                            output.push(
+                                //edit here
                                 <div className="column">
-                                <div className="container">
-                                    <div className="card">
+                                    <div className="container">
+                                        <div className="card">
 
-                                        <img src={response.data.data[i].image_download_url?response.data.data[i].image_download_url:"https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
-                                        {/*<div className="container">*/}
-                                           {/*<button onClick={(e) => self.handleSubmit(response.data.data[i].id, e)}>{response.data.data[i].name}</button>*/}
-                                           <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                        {/*</div>*/}
+                                            <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
+                                            <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
+                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Remove From Favorites</button>
+                                            {/*</div>*/}
                                         </div>
                                     </div>
                                 </div>
-                        )
+                            )
+                        }
+                    }   
+                    output.push(<div className="move"><hr></hr></div>)
+                    for (let i = 0; i < response.data.data.length; i++) {
+                        //edit here
+                        if (!self.state.favorites.includes(response.data.data[i].id.toString())){
+                            output.push(
+                                //edit here
+                                <div className="column">
+                                    <div className="container">
+                                        <div className="card">
+
+                                            <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
+                                            <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
+                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Add to Favorites</button>
+                                            {/*</div>*/}
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        }
                     }
 
 
@@ -172,7 +232,8 @@ class classSelect extends Component {
 
     render() {
         if (!this.state.loadedClasses) {
-            this.getListOfClasses()
+            this.getFavorite();
+            this.getListOfClasses();
         }
 
         let loading = (

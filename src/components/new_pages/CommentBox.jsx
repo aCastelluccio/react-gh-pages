@@ -63,7 +63,7 @@ class CommentBox extends Component {
             'background-color': '#ffffff'
         }
         let greenStyle = { 
-            'background-color': '#919191'
+            'background-color': '#bfbfbf'
         }
         let style = {}
         if (this.state.background == 'red') 

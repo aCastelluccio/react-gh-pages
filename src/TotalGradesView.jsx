@@ -77,21 +77,22 @@ class TotalGradesView extends Component {
                 comment = comment + "\n\n" + (student[cat.id + "_comment"])
                 }
             }
-            
             output.push(
-                <td>
-                    {name}
-                </td>
-            )
-            output.push(
-                <td>
-                    {grade}
-                </td>
-            )
-            output.push(
-                <td>
-                    {comment}
-                </td>
+                <div>
+                    <div>
+                        <h3>{name}</h3>
+                    </div>
+                    <div>
+                        <td>
+                            Overall Grade:
+                            <CommentBox assign={this.state.assignment_id} com={grade} stuId={student.studentId} catCom={grade}></CommentBox>
+                        </td>
+                        <td>
+                            Overall Comments:
+                            <CommentBox assign={this.state.assignment_id} com={comment} stuId={student.studentId} catCom={comment}></CommentBox>
+                        </td>
+                    </div>
+                </div>
             )
         }
         return [output, grade, comment]
@@ -105,8 +106,10 @@ class TotalGradesView extends Component {
             <div>
                 <div className="back-button">
                     <button onClick={this.handleBack}>Back</button>
-                    {this.makeStudents()}
                 </div>
+                <h1>Adjust grades/comments as necessary and press submit to submit them to canvas</h1>
+                <h2>Changes made here will not be saved unless they are submitted to canvas</h2>
+                {this.makeStudents()}
             </div>
        )
        return output

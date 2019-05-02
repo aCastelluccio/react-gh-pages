@@ -220,6 +220,7 @@ class GradingView extends Component {
        output.push(
            <td className="comment-td">
                {/* <textarea className="comment-input" value={com_val} onChange={(e) => this.handleCommentChange(e, studentInfo.studentId, category.id)} onKeyDown={(e) => this.handleCommentSubmit(e, studentInfo.studentId, category.id)} type="text">{studentInfo[category.id + "_comment"]} </textarea> */}
+               {console.log(com_val, studentInfo.studentId, category.id, studentInfo[category.id + "_comment"])}
                <CommentBox assign={this.state.assignment_id} com={com_val} stuId={studentInfo.studentId} catId={category.id} catCom={studentInfo[category.id + "_comment"]}> </CommentBox>
            </td>
        )

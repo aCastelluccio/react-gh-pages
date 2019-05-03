@@ -29,6 +29,7 @@ class TotalGradesView extends Component {
         })
     }
 
+    
     getGradesAndCategories = () => {
         var apiBaseUrl = "https://stormy-atoll-91880.herokuapp.com/https://grading-api.herokuapp.com/api/";
         var payload = {

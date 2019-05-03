@@ -237,7 +237,7 @@ class classSelect extends Component {
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
                                             {/*<button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Add to Favorites</button>*/}
                         
-                                            <div className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><i className="fa fa-star-o"></i></div>
+                                            <div className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><i className="fa fa-star-o fa-lg star-empty"></i></div>
                                             {/*</div>*/}
                                         </div>
                                     </div>

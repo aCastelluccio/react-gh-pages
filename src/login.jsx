@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import './App.css';
 import GoogleLogin from 'react-google-login';
 import ClassSelect from './ClassSelect'
+import BootstrapExample from './BootstrapExample';
 import axios from "axios";
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -85,7 +86,7 @@ class App extends Component {
    console.log(this.state.googleClient)
     let no_auth = (
       <div className="login-container">
-
+        <span className="glyphicon glyphicon-repeat"></span>
      <div className="sign-in">Sign in to Greater Grader</div>
      <div className="login-button">
        <GoogleLogin

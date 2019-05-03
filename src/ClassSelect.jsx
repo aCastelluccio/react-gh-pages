@@ -4,6 +4,8 @@ import axios from "axios";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import GradingView from './GradingView2'
 import "./ClassSelection.css"
+
+
 import { blue } from '@material-ui/core/colors';
 
 class classSelect extends Component {
@@ -198,16 +200,25 @@ class classSelect extends Component {
                             console.log("was true")
                             output.push(
                                 //edit here
+                                <div>
+                                <div><link
+                                rel="stylesheet"
+                                href="maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+                                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                                crossorigin="anonymous"
+                            /></div> 
+                                
                                 <div className="column">
                                     <div className="container">
                                         <div className="card" style = {self.getRandomColor()}>
-
+                                        
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Remove From Favorites</button>
+                                            <div className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><i className="fa fa-star star-full"></i></div>
                                             {/*</div>*/}
                                         </div>
                                     </div>
+                                </div>
                                 </div>
                             )
                         }
@@ -221,10 +232,12 @@ class classSelect extends Component {
                                 <div className="column">
                                     <div className="container">
                                     <div className="card" style = {self.getRandomColor()}>
-
+                                    
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Add to Favorites</button>
+                                            {/*<button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Add to Favorites</button>*/}
+                        
+                                            <div className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><i className="fa fa-star-o"></i></div>
                                             {/*</div>*/}
                                         </div>
                                     </div>

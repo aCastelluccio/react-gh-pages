@@ -1,6 +1,3 @@
-
-
-
 import React, { Component } from 'react';
 import './App.css';
 import GoogleLogin from 'react-google-login';

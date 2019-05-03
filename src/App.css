@@ -74,13 +74,20 @@
  
   }
  
- .sign-in{
-  width:500px;
+  .sign-in{
+  /*width: 500px;
   padding-top:10%;
   padding-left: 40%;
-   font-family: 'Open Sans', sans-serif;
-   font-size:38px;
-   color:#555557;
+  font-family: 'Open Sans', sans-serif;
+  font-size:38px;
+  color:#555557;*/
+
+  
+  padding-top: 10%;
+  padding-left: 40%;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 38px;
+  color:#555557;
  
  }
 

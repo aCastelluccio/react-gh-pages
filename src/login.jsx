@@ -1,6 +1,5 @@
 
 
-
 import React, { Component } from 'react';
 import './App.css';
 import GoogleLogin from 'react-google-login';
@@ -87,7 +86,7 @@ class App extends Component {
     let no_auth = (
       <div className="login-container">
         <span className="glyphicon glyphicon-repeat"></span>
-     <div className="sign-in">Sign in to Greater Grader</div>
+     <div id="sign-in" className="sign-in">Sign in to Greater Grader</div>
      <div className="login-button">
        <GoogleLogin
          clientId={process.env.REACT_APP_CLIENT_ID}

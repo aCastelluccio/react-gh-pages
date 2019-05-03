@@ -4,7 +4,7 @@ import GradingView from './GradingView2';
 import ClassSelect from './ClassSelect';
 import "./rubric.css"
 import CommentBox from './components/new_pages/CommentBox'
-
+import NumericInput from "react-numeric-input"
 
 const ReactDOM = require('react-dom')
 
@@ -85,7 +85,8 @@ class TotalGradesView extends Component {
                     <div>
                         <td>
                             Overall Grade:
-                            <CommentBox assign={this.state.assignment_id} com={grade} stuId={student.studentId} catCom={grade}></CommentBox>
+                            <NumericInput step={1} precision={2} value={grade}/>
+                            {/* <CommentBox assign={this.state.assignment_id} com={grade} stuId={student.studentId} catCom={grade}></CommentBox> */}
                         </td>
                         <td>
                             Overall Comments:

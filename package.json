@@ -4,7 +4,8 @@
   "private": true,
   "homepage": "http://acastelluccio.github.io/react-gh-pages",
   "dependencies": {
-    "@material-ui/core": "^3.1.0",
+    "@material-ui/core": "^3.9.3",
+    "@material-ui/icons": "^3.0.2",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "cors": "^2.8.4",

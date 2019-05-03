@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import GradingView from './GradingView2'
 import "./ClassSelection.css"
 import { blue } from '@material-ui/core/colors';
+import AddIcon from '@material-ui/icons/Star';
 
 class classSelect extends Component {
     constructor(props) {
@@ -204,7 +205,7 @@ class classSelect extends Component {
 
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Remove From Favorites</button>
+                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><AddIcon></AddIcon></button>
                                             {/*</div>*/}
                                         </div>
                                     </div>
@@ -224,7 +225,7 @@ class classSelect extends Component {
 
                                             <img src={response.data.data[i].image_download_url ? response.data.data[i].image_download_url : "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12193133/German-Shepherd-Puppy-Fetch.jpg"}></img>
                                             <button className="class-btns" onClick={(e) => self.handleSubmit(response.data.data[i].id, response.data.data[i].name, e)}>{response.data.data[i].name}</button>
-                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}>Add to Favorites</button>
+                                            <button className="fav" onClick={(e) => self.addFavorite(response.data.data[i].id, e)}><AddIcon></AddIcon></button>
                                             {/*</div>*/}
                                         </div>
                                     </div>
